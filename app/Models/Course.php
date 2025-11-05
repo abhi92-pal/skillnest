@@ -11,5 +11,9 @@ class Course extends Model
     use HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    public function topics(){
+        return $this->hasMany(Topic::class);
+    }
     
 }

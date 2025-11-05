@@ -11,5 +11,13 @@ class Topic extends Model
     use HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
+
+    public function semester_topics(){
+        return $this->hasMany(SemesterTopic::class);
+    }
     
 }
