@@ -14,8 +14,13 @@ use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class CourseController extends Controller
 {
-    public function index(){
-        return view('admin.course.index');
+    public function index(Request $request){
+        $search_title = $request->search_title;
+        $courses = Course::when($search_title, function($query, $search_title){
+                                $query->where('name', 'like', '%' . $search_title . '%');
+                            })->latest()->paginate(10);
+                            
+        return view('admin.course.index', compact('courses', 'search_title'));
     }
 
     public function create(){
