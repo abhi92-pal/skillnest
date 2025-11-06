@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->text('content_url')->nullable();
             $table->double('duration', 20, 5)->comment('In Seconds');
+            $table->enum('is_freezed', ['Yes', 'No'])->default('No'); // content will be available after freezing
             $table->string('language');
             $table->uuid('created_by');
             $table->timestamps();

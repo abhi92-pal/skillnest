@@ -25,7 +25,9 @@ class CourseController extends Controller
 
     public function show(Course $course){
         $auth_user = Auth::user();
-        $course = Course::with(['topics' => function($query) use ($auth_user){
+        $course = Course::whereHas('topics', function($query) use ($auth_user){
+                                $query->where('author_id', $auth_user->id);
+                            })->with(['topics' => function($query) use ($auth_user){
                                 $query->where('author_id', $auth_user->id);
                             }])
                             ->where('status', 'Active')
