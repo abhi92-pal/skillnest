@@ -4,7 +4,7 @@
     function HomePage() {
         return (
             <div>
-                <h1>Welcome to SkillNest</h1>
+                <h1></h1>
             </div>
         );
     }
