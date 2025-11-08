@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         @viteReactRefresh
-        @vite(['resources/css/app.css', 'resources/js/app.jsx'])
+        @vite(['resources/css/app.css', 'resources/js/main.jsx'])
     </head>
 
     <body>
