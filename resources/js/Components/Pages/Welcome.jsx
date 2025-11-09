@@ -1,35 +1,16 @@
 import React from 'react'
+import HomeBanner from '../Banner/HomeBanner';
+import CourseCategories from '../CourseCategories/index';
+import Counters from '../Counters/index';
+import AboutUs from '../AboutUs/AboutUs';
+import Services from '../AboutUs/Services';
+import Testimonial from '../Testimonial/index';
+import Enroll from '../Enroll/index';
 
 const Welcome = () => {
-    const APP_NAME = import.meta.env.VITE_APP_NAME;
     return (
         <React.Fragment>
-            <div
-                className="hero-wrap js-fullheight"
-                style={{ backgroundImage: "url('images/bg_1.jpg')" }}
-            >
-                <div className="overlay"></div>
-                <div className="container">
-                    <div
-                        className="row no-gutters slider-text js-fullheight align-items-center"
-                        data-scrollax-parent="true"
-                    >
-                        <div className="col-md-7 ftco-animate1">
-                            <span className="subheading">Welcome to {APP_NAME}</span>
-                            <h1 className="mb-4">We Are Online Platform For Make Learn</h1>
-                            <p className="caps">
-                                Far far away, behind the word mountains, far from the countries Vokalia and Consonantia
-                            </p>
-                            <p className="mb-0">
-                                <a href="#" className="btn btn-primary">Our Course</a>
-                                {' '}
-                                <a href="#" className="btn btn-white">Learn More</a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <HomeBanner />
             <section className="ftco-section ftco-no-pb ftco-no-pt">
                 <div className="container">
                     <div className="row">
@@ -74,6 +55,14 @@ const Welcome = () => {
                     </div>
                 </div>
             </section>
+
+            <CourseCategories />
+            <Counters />
+            <AboutUs />
+            <Testimonial />
+            <Enroll />
+            <Services />
+
         </React.Fragment>
     )
 }
