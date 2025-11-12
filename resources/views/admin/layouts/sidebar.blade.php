@@ -48,7 +48,7 @@
                 <li class="menu-title">Navigation</li>
 
                 <li>
-                    <a href="{{ url('/home') }}">
+                    <a href="{{ route('admin.dashboard') }}">
                         <i data-feather="airplay"></i>
                         <span> Dashboards </span>
                     </a>

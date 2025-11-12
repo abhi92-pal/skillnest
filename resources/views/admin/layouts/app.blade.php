@@ -79,8 +79,8 @@
 <body data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "default", "showuser": false}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
     <!-- Begin page -->
     <div id="wrapper">
-        @include('layouts.header')
-        @include('layouts.sidebar')
+        @include('admin.layouts.header')
+        @include('admin.layouts.sidebar')
 
         @yield('content')
     </div>
