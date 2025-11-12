@@ -1,8 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 
 const Counters = () => {
+    const JQueryInitializer = () => {
+        const location = useLocation();
+
+        useEffect(() => {
+            if (window.$) {
+                var counter = function () {
+                    $('.ftco-counter').waypoint(
+                        function (direction) {
+                        if (
+                            direction === 'down' &&
+                            !$(this.element).hasClass('ftco-animated')
+                        ) {
+                            var comma_separator_number_step =
+                            $.animateNumber.numberStepFactories.separator(',');
+                            $('.number').each(function () {
+                            var $this = $(this),
+                                num = $this.data('number');
+                            $this.animateNumber(
+                                {
+                                number: num,
+                                numberStep: comma_separator_number_step
+                                },
+                                7000
+                            );
+                            });
+                        }
+                        },
+                        { offset: '95%' }
+                    );
+                };
+                counter();
+            }
+        }, [location.pathname]); // Runs every time the route changes
+
+        return null;
+    };
+
     return (
         <React.Fragment>
+            <JQueryInitializer />
             <section
                 className="ftco-section ftco-counter img"
                 id="section-counter"

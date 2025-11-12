@@ -1,8 +1,40 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom';
 
 const Testimonial = () => {
+    const JQueryInitializer = () => {
+        const location = useLocation();
+
+        useEffect(() => {
+            if (window.$) {
+                var carousel = function () {
+                    $('.carousel-testimony').owlCarousel({
+                        center: false,
+                        loop: true,
+                        items: 1,
+                        margin: 30,
+                        stagePadding: 0,
+                        nav: false,
+                        navText: [
+                            '<span class="ion-ios-arrow-back">',
+                            '<span class="ion-ios-arrow-forward">'
+                        ],
+                        responsive: {
+                            0: { items: 1 },
+                            600: { items: 2 },
+                            1000: { items: 4 }
+                        }
+                    });
+                };
+                carousel();
+            }
+        }, [location.pathname]); // Runs every time the route changes
+
+        return null;
+    };
     return (
         <React.Fragment>
+            <JQueryInitializer />
             <section className="ftco-section testimony-section bg-light">
                 <div className="overlay" style={{ backgroundImage: "url('images/bg_2.jpg')" }}></div>
 
