@@ -151,7 +151,7 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // window.location.href = response.redirect_url;
+                        window.location.href = response.redirect_url;
                         submitBtn.text(submitBtnText);
                     },
                     error: function(data) {

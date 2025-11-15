@@ -58,16 +58,16 @@
                 <li>
                     <a href="#master" data-toggle="collapse">
                         <i data-feather="settings"></i>
-                        <span> Basic Setup </span>
+                        <span> Course </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="master">
                         <ul class="nav-second-level">
                           <li>
-                            <a href="#">One</a>
+                            <a href="{{ route('admin.course.index') }}">Courses</a>
                           </li>
                           <li>
-                            <a href="#">Two</a>
+                            <a href="{{ route('admin.course.create') }}">Add</a>
                           </li>
 
                         </ul>
