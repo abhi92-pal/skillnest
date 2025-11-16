@@ -57,7 +57,7 @@
                 <li>
                     <a href="#menu_course" data-toggle="collapse">
                         <i data-feather="settings"></i>
-                        <span> Course </span>
+                        <span> Course Management </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <div class="collapse" id="menu_course">
@@ -67,6 +67,44 @@
                           </li>
                           <li>
                             <a href="{{ route('admin.course.create') }}">Add</a>
+                          </li>
+
+                        </ul>
+                    </div>
+                </li>
+                
+                <li>
+                    <a href="#menu_teacher" data-toggle="collapse">
+                        <i data-feather="settings"></i>
+                        <span> Teacher Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="menu_teacher">
+                        <ul class="nav-second-level">
+                          <li>
+                            <a href="{{ route('admin.teacher.index') }}">Teachers</a>
+                          </li>
+                          <li>
+                            <a href="{{ route('admin.teacher.create') }}">Add</a>
+                          </li>
+
+                        </ul>
+                    </div>
+                </li>
+                
+                <li>
+                    <a href="#menu_student" data-toggle="collapse">
+                        <i data-feather="settings"></i>
+                        <span> Student Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="menu_student">
+                        <ul class="nav-second-level">
+                          <li>
+                            <a href="{{ route('admin.student.index') }}">Students</a>
+                          </li>
+                          <li>
+                            <a href="{{ route('admin.student.create') }}">Add</a>
                           </li>
 
                         </ul>
