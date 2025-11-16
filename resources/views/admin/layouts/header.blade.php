@@ -70,10 +70,10 @@
 
             <a href="{{url('/home')}}" class="logo logo-light text-center">
                 <span class="logo-sm">
-                    <img src="{{ asset('assets/images/logo.png') }}" style="filter: invert(1);" alt="" height="22">
+                    {{-- <img src="{{ asset('assets/images/logo.png') }}" style="filter: invert(1);" alt="" height="22"> --}}
                 </span>
                 <span class="logo-lg">
-                    <img src="{{ asset('assets/images/logo.png') }}" style="filter: invert(1);" alt="" height="40">
+                    {{-- <img src="{{ asset('assets/images/logo.png') }}" style="filter: invert(1);" alt="" height="40"> --}}
                 </span>
             </a>
         </div>

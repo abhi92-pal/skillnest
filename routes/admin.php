@@ -32,6 +32,7 @@ Route::middleware(['isAdmin'])->group(function(){
     Route::controller(TeacherController::class)->group(function(){
         Route::get('/teachers', 'index')->name('admin.teacher.index');
         Route::get('/teacher/create', 'create')->name('admin.teacher.create');
+        Route::post('/teacher/save', 'store')->name('admin.teacher.store');
     });
 
     Route::controller(AuthController::class)->group(function(){
