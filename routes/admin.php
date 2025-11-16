@@ -15,6 +15,7 @@ Route::middleware(['isAdmin'])->group(function(){
         Route::get('/course/{course}/edit', 'edit')->name('admin.course.create');
         Route::post('/course/{course}/update', 'update')->name('admin.course.update');
 
+        Route::post('/course/get-topic-structure', 'getSemTopicStruct')->name('admin.course.get-topic-structure');
         Route::post('/course/{course}/freeze', 'freezeCourse')->name('admin.course.freeze');
         Route::post('/course/{course}/change-status', 'changeStatus')->name('admin.course.change-status');
         Route::post('/course/{course}/publish', 'publishCourse')->name('admin.course.publish');

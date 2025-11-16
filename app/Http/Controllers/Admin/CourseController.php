@@ -40,7 +40,8 @@ class CourseController extends Controller
             'duration_type' => 'required|in:Year,Month,Day,Hour',
             'duration' => 'required|numeric|gt:0',
             'reg_end_date' => 'required|date|after:today',
-            'no_of_semester' => 'required|numeric|gt:0|lte:16',
+            // 'no_of_semester' => 'required|numeric|gt:0|lte:16',
+            'no_of_semester' => 'required|exists:semesters,id',
             't_name' => 'required|array',
             't_name.*' => 'required|string|max:100',
             't_description' => 'required|array',
@@ -214,6 +215,16 @@ class CourseController extends Controller
         }
 
         return response()->json(['message' => 'Course updated successfully.']);
+    }
+
+    public function getSemTopicStruct(Request $request){
+        $no_of_semester = $request->semesters;
+        $teachers = User::where('role', 'Teacher')->where('status', 'Active')->get();
+        $semesters = Semester::where('exam_sequence', '<=', $no_of_semester)->get();
+        
+        $html = view('admin.course.partials.sem-topics', compact('semesters', 'teachers'))->render();
+
+        return response()->json(['html' => $html, 'message' => 'Structure fetched successfully']);
     }
 
     public function freezeCourse(Course $course){
