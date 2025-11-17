@@ -131,7 +131,9 @@
             });
 
             $('form#createForm').on('submit', function() {
-                $('.submitBtn').html(
+                const submitBtn = $('.submitBtn');
+                const btnText = submitBtn.text();
+                submitBtn.html(
                     '<div class="spinner-border spinner-border-sm" role="status"><span class="visually-hidden"></span></div>'
                     ).attr('disabled', true);
                 var formData = new FormData(this);
@@ -149,7 +151,7 @@
                             title: response.message
                         });
 
-                        $('.submitBtn').html('Save');
+                        submitBtn.html(btnText);
 
                         // window.location.href = response.redirect_url;
                         window.location.reload(true);
@@ -166,7 +168,7 @@
                             $('.' + index + '_error').text(value);
                         });
 
-                        $('.submitBtn').html('Save').attr('disabled', false);
+                        submitBtn.html(btnText).attr('disabled', false);
                     }
 
                 });
