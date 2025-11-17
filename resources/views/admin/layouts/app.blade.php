@@ -32,8 +32,6 @@
         rel="stylesheet" type="text/css" />
     <link href="{{ asset('atportal/assets/libs/clockpicker/bootstrap-clockpicker.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <link href="{{ asset('atportal/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet"
-        type="text/css" />
     <link href="{{ asset('atportal/assets/libs/dropzone/min/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('atportal/assets/libs/dropify/css/dropify.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('atportal/assets/libs/busyload/app.min.css') }}" rel="stylesheet" type="text/css" />
@@ -144,7 +142,7 @@
     <script src="{{ asset('atportal/assets/libs/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/parsleyjs/parsley.min.js') }}"></script>
-    <script src="{{ asset('atportal/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('atportal/assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/dropzone/min/dropzone.min.js') }}"></script>

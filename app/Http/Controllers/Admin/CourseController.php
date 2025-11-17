@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Coursecategory;
 use App\Models\Semester;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,28 +27,37 @@ class CourseController extends Controller
     public function create(){
         $teachers = User::where('role', 'Teacher')->where('status', 'Active')->get();
         $semesters = Semester::get();
+        $categories = Coursecategory::get();
 
-        return view('admin.course.create', compact('teachers', 'semesters'));
+        return view('admin.course.create', compact('teachers', 'semesters', 'categories'));
     }
 
     public function store(Request $request){
         $rules = [
             'name' => 'required|max:200',
+            'category' => 'required|array',
+            'category.*' => ['required', 'exists:coursecategories,id'],
+            'course_pic' => 'required|file|mimes:jpg,jpeg,png,webp|max:2048',
             'short_description' => 'required|max:200',
             'long_description' => 'required',
             'price' => 'required|numeric|gte:0',
-            'selling_price' => 'required|numeric|gte:' . $request->price,
+            'selling_price' => 'required|numeric|lte:' . $request->price,
             'duration_type' => 'required|in:Year,Month,Day,Hour',
             'duration' => 'required|numeric|gt:0',
             'reg_end_date' => 'required|date|after:today',
-            // 'no_of_semester' => 'required|numeric|gt:0|lte:16',
-            'no_of_semester' => 'required|exists:semesters,id',
+            'no_of_semester' => 'required|numeric|gt:0|lte:16',
+
             't_name' => 'required|array',
-            't_name.*' => 'required|string|max:100',
+            't_name.*' => 'required|array',
+            't_name.*.*' => 'required|string|max:100',
+
             't_description' => 'required|array',
-            't_description.*' => 'required',
+            't_description.*' => 'required|array',
+            't_description.*.*' => 'required',
+
             't_author' => 'required|array',
-            't_author.*' => [
+            't_author.*' => 'required|array',
+            't_author.*.*' => [
                                 'required',
                                 function($attribute, $value, $fail){
                                     $exists = User::where('id', $value)->where('role', 'Teacher')->where('status', 'Active')->exists();
@@ -56,6 +66,7 @@ class CourseController extends Controller
                                     }
                                 }
                             ],
+
             't_sem' => 'required|array',
             't_sem.*' => [
                             'required',
@@ -76,6 +87,9 @@ class CourseController extends Controller
                                                                     't_name.*' => 'topic name',
                                                                     't_description.*' => 'description',
                                                                     't_author.*' => 'author',
+                                                                    't_name.*.*' => 'topic name',
+                                                                    't_description.*.*' => 'description',
+                                                                    't_author.*.*' => 'author',
                                                                     't_sem.*' => 'semester',
                                                                 ]);
 
@@ -92,6 +106,11 @@ class CourseController extends Controller
         
         try{
             DB::transaction(function() use ($request){
+                $file_path = null;
+                if ($request->hasFile('course_pic')) {
+                    $file_path = $request->file('course_pic')->store('courses', 'public');
+                }
+
                 $course = Course::create([
                                 'name' => $request->name,
                                 'short_description' => $request->short_description,
@@ -101,23 +120,28 @@ class CourseController extends Controller
                                 'no_of_semesters' => $request->no_of_semester,
                                 'duration_type' => $request->duration_type,
                                 'duration' => $request->duration,
+                                'file_path' => $file_path,
                                 'is_freezed' => 'No',
                                 'is_published' => 'No',
                                 'status' => 'Inactive',
                                 'reg_end_date' => date('Y-m-d', strtotime($request->reg_end_date)),
                             ]);
+
+                $course->coursecategories()->attach($request->category);
     
-                foreach($request->t_name as $key => $t_name){
-                    $topic = $course->topics()->create([
-                        'name' => $request->t_name[$key],
-                        'description' => $request->t_description[$key],
-                        'created_by' => Auth::id(),
-                        'author_id' => $request->t_author[$key],
-                    ]);
-    
-                    $topic->semester_topics()->create([
-                        'semester_id' => $request->t_sem[$key]
-                    ]);
+                foreach($request->t_name as $semId => $t_names){
+                    foreach($t_names as $key => $t_name){
+                        $topic = $course->topics()->create([
+                            'name' => $request->t_name[$semId][$key],
+                            'description' => $request->t_description[$semId][$key],
+                            'created_by' => Auth::id(),
+                            'author_id' => $request->t_author[$semId][$key],
+                        ]);
+        
+                        $topic->semester_topics()->create([
+                            'semester_id' => $semId
+                        ]);
+                    }
                 }
     
             });
@@ -125,7 +149,7 @@ class CourseController extends Controller
             return response()->json(['message' => $e->getMessage()], 422);
         }
 
-        return response()->json(['message' => 'Course created successfully.']);
+        return response()->json(['message' => 'Course created successfully.', 'redirect_url' => route('admin.course.index')]);
     }
 
     public function edit(Course $course){
