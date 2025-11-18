@@ -12,7 +12,7 @@ Route::middleware(['isAdmin'])->group(function(){
         Route::get('/courses', 'index')->name('admin.course.index');
         Route::get('/course/create', 'create')->name('admin.course.create');
         Route::post('/course/save', 'store')->name('admin.course.store');
-        Route::get('/course/{course}/edit', 'edit')->name('admin.course.create');
+        Route::get('/course/{course}/edit', 'edit')->name('admin.course.edit');
         Route::post('/course/{course}/update', 'update')->name('admin.course.update');
 
         Route::post('/course/get-topic-structure', 'getSemTopicStruct')->name('admin.course.get-topic-structure');
