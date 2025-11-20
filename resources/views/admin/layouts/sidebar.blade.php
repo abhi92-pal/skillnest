@@ -84,9 +84,9 @@
                           <li>
                             <a href="{{ route('admin.teacher.index') }}">Teachers</a>
                           </li>
-                          <li>
+                          {{-- <li>
                             <a href="{{ route('admin.teacher.create') }}">Add</a>
-                          </li>
+                          </li> --}}
 
                         </ul>
                     </div>
