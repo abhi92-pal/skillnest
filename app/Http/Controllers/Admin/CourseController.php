@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Coursecategory;
 use App\Models\Semester;
+use App\Models\SemesterTopic;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -173,13 +174,14 @@ class CourseController extends Controller
     }
 
     public function update(Request $request, Course $course){
-        dd('Under development mode');
         if($course->is_freezed == 'Yes'){
             return response()->json(['message' => 'You cannot edit this course as it is freezed.']);
         }
 
         $request->validate([
-            'name' => 'required|max:200',
+            'category' => 'required|array',
+            'category.*' => ['required', 'exists:coursecategories,id'],
+            'course_pic' => 'nullable|file|mimes:jpg,jpeg,png,webp|max:2048',
             'short_description' => 'required|max:200',
             'long_description' => 'required',
             'price' => 'required|numeric|gte:0',
@@ -189,11 +191,16 @@ class CourseController extends Controller
             'reg_end_date' => 'required|date|after:today',
             'no_of_semester' => 'required|numeric|gt:0|lte:16',
             't_name' => 'required|array',
-            't_name.*' => 'required|string|max:100',
+            't_name.*' => 'required|array',
+            't_name.*.*' => 'required|string|max:100',
+
             't_description' => 'required|array',
-            't_description.*' => 'required',
+            't_description.*' => 'required|array',
+            't_description.*.*' => 'required',
+
             't_author' => 'required|array',
-            't_author.*' => [
+            't_author.*' => 'required|array',
+            't_author.*.*' => [
                                 'required',
                                 function($attribute, $value, $fail){
                                     $exists = User::where('id', $value)->where('role', 'Teacher')->where('status', 'Active')->exists();
@@ -202,6 +209,7 @@ class CourseController extends Controller
                                     }
                                 }
                             ],
+
             't_sem' => 'required|array',
             't_sem.*' => [
                             'required',
@@ -220,6 +228,11 @@ class CourseController extends Controller
 
         try{
             DB::transaction(function() use ($request, $course){
+                $file_path = $course->file_path;
+                if ($request->hasFile('course_pic')) {
+                    $file_path = $request->file('course_pic')->store('courses', 'public');
+                }
+
                 $course->update([
                                     'name' => $request->name,
                                     'short_description' => $request->short_description,
@@ -227,32 +240,38 @@ class CourseController extends Controller
                                     'price' => $request->price,
                                     'selling_price' => $request->selling_price,
                                     'no_of_semesters' => $request->no_of_semester,
+                                    'file_path' => $file_path,
                                     'duration_type' => $request->duration_type,
                                     'duration' => $request->duration,
                                     'reg_end_date' => date('Y-m-d', strtotime($request->reg_end_date)),
                                 ]);
     
-                $course->topics()->semester_topics()->delete();
+                $topicIds = $course->topics()->pluck('id')->toArray();
+                SemesterTopic::whereIn('topic_id', $topicIds)->delete();
                 $course->topics()->delete();
+
+                $course->coursecategories()->sync($request->category);
     
-                foreach($request->t_name as $key => $t_name){
-                    $topic = $course->topics()->create([
-                        'name' => $request->t_name[$key],
-                        'description' => $request->t_description[$key],
-                        'created_by' => Auth::id(),
-                        'author_id' => $request->t_author[$key],
-                    ]);
-    
-                    $topic->semester_topics()->create([
-                        'semester_id' => $request->t_sem[$key]
-                    ]);
+                foreach($request->t_name as $semId => $t_names){
+                    foreach($t_names as $key => $t_name){
+                        $topic = $course->topics()->create([
+                            'name' => $request->t_name[$semId][$key],
+                            'description' => $request->t_description[$semId][$key],
+                            'created_by' => Auth::id(),
+                            'author_id' => $request->t_author[$semId][$key],
+                        ]);
+        
+                        $topic->semester_topics()->create([
+                            'semester_id' => $semId
+                        ]);
+                    }
                 }
             });
         }catch(\Exception $e){
             return response()->json(['message' => $e->getMessage()], 422);
         }
 
-        return response()->json(['message' => 'Course updated successfully.']);
+        return response()->json(['message' => 'Course updated successfully.', 'redirect_url' => route('admin.course.index')]);
     }
 
     public function getSemTopicStruct(Request $request){
