@@ -37,8 +37,8 @@
                                             <th>Price</th>
                                             <th>Selling Price</th>
                                             <th>Reg End Date</th>
-                                            <th>Is Published</th>
                                             <th>Is Freezed</th>
+                                            <th>Is Published</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                         </tr>
@@ -85,6 +85,9 @@
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
                                                             {{-- <a href="" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a> --}}
                                                             <a href="{{ route('admin.course.edit', $course->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>View / Edit</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('admin.course.freeze', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Freeze</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item publish_btn" data-url="{{ route('admin.course.publish', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Publish</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item change_status" data-url="{{ route('admin.course.change-status', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Active / Inactive</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -109,4 +112,133 @@
 @endsection
 
 @section('js')
+<script>
+    $(document).ready(function(){
+        $(document).on('click', '.freeze_btn', function(){
+            const __this = $(this);
+            const actionUrl = __this.data('url');
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'You want to freeze it',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, freeze it!"
+            }).then((response) => {
+                if(response.isConfirmed){
+                    $.ajax({
+                        method: 'POST',
+                        data: {},
+                        url: actionUrl,
+                        success: function(response) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message,
+                            });
+                            
+                            setTimeout(() => {
+                                location.reload(true);
+                            }, 2500);
+                        },
+                        error: function(data) {
+                            var response = data.responseJSON;
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+        
+        $(document).on('click', '.publish_btn', function(){
+            const __this = $(this);
+            const actionUrl = __this.data('url');
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'You want to publish it',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, publish it!"
+            }).then((response) => {
+                if(response.isConfirmed){
+                    $.ajax({
+                        method: 'POST',
+                        data: {},
+                        url: actionUrl,
+                        success: function(response) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message
+                            });
+
+                            setTimeout(() => {
+                                location.reload(true);
+                            }, 2500);
+                        },
+                        error: function(data) {
+                            var response = data.responseJSON;
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+        
+        $(document).on('click', '.change_status', function(){
+            const __this = $(this);
+            const actionUrl = __this.data('url');
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'You want to change the status!',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, change it!"
+            }).then((response) => {
+                if(response.isConfirmed){
+                    $.ajax({
+                        method: 'POST',
+                        data: {},
+                        url: actionUrl,
+                        success: function(response) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message
+                            });
+
+                            setTimeout(() => {
+                                location.reload(true);
+                            }, 2500);
+                        },
+                        error: function(data) {
+                            var response = data.responseJSON;
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection
