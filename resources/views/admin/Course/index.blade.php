@@ -83,11 +83,11 @@
                                                         <i class="fas fa-ellipsis-h"></i>
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                                            {{-- <a href="" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a> --}}
-                                                            <a href="{{ route('admin.course.edit', $course->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>View / Edit</a>
-                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('admin.course.freeze', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Freeze</a>
-                                                            <a href="javascript:void(0)" class="dropdown-item publish_btn" data-url="{{ route('admin.course.publish', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Publish</a>
-                                                            <a href="javascript:void(0)" class="dropdown-item change_status" data-url="{{ route('admin.course.change-status', $course->id) }}"><i class="far fa-edit text-info mr-3"></i>Active / Inactive</a>
+                                                            <a href="{{ route('admin.course.show', $course->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
+                                                            <a href="{{ route('admin.course.edit', $course->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('admin.course.freeze', $course->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item publish_btn" data-url="{{ route('admin.course.publish', $course->id) }}"><i class="far fa-paper-plane text-info mr-3"></i>Publish</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item change_status" data-url="{{ route('admin.course.change-status', $course->id) }}"><i class="far fa @if($course->status == 'Active') fa-circle-notch @else fa-play-circle @endif text-info mr-3"></i>Active / Inactive</a>
                                                         </div>
                                                     </div>
                                                 </td>

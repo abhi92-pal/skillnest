@@ -154,6 +154,25 @@ class CourseController extends Controller
         return response()->json(['message' => 'Course created successfully.', 'redirect_url' => route('admin.course.index')]);
     }
 
+    public function show(Course $course){
+        $teachers = User::where('role', 'Teacher')->get();
+        $categories = Coursecategory::get();
+
+        $semesters = Semester::where('exam_sequence', '<=', $course->no_of_semesters)->get();
+
+        foreach($semesters as $semester){
+            $topics = Topic::where('course_id', $course->id)
+                            ->whereHas('semester_topics', function($query) use ($semester){
+                                $query->where('semester_id', $semester->id);
+                            })->get();
+
+            $semester->sem_topics = $topics;
+
+        }
+
+        return view('admin.course.show', compact('course', 'teachers', 'semesters', 'categories'));
+    }
+
     public function edit(Course $course){
         $teachers = User::where('role', 'Teacher')->get();
         $categories = Coursecategory::get();

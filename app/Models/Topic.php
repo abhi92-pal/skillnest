@@ -19,5 +19,9 @@ class Topic extends Model
     public function semester_topics(){
         return $this->hasMany(SemesterTopic::class);
     }
+
+    public function author(){
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
     
 }
