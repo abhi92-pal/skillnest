@@ -11,5 +11,17 @@ class Question extends Model
     use HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    public function questionoptions(){
+        return $this->hasMany(Questionoption::class);
+    }
+
+    public function exampaper(){
+        return $this->belongsTo(Exampaper::class);
+    }
+
+    public function questiontype(){
+        return $this->belongsTo(Questiontype::class);
+    }
     
 }

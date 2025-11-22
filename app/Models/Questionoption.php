@@ -11,5 +11,9 @@ class Questionoption extends Model
     use HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    public function question(){
+        return $this->belongsTo(Question::class);
+    }
     
 }

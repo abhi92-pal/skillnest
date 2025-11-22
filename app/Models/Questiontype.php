@@ -12,4 +12,7 @@ class Questiontype extends Model
 
     protected $guarded = [];
     
+    public function exampapers(){
+        return $this->belongsToMany(Exampaper::class)->withPivot('description', 'total_questions', 'evaluted_question_nos');
+    }
 }
