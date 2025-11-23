@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExamslotController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,12 @@ Route::middleware(['isAdmin'])->group(function(){
 
     Route::controller(DashboardController::class)->group(function(){
         Route::get('/', 'index')->name('admin.dashboard');
+    });
+
+    Route::controller(ExamslotController::class)->group(function(){
+        Route::post('/examslots', 'index')->name('admin.examslot.index');
+        Route::post('/manage-examslot', 'createOrUpdate')->name('admin.examslot.manage');
+        Route::post('/examslot/{examslot}/delete', 'destroy')->name('admin.examslot.destroy');
     });
 
     Route::controller(StudentController::class)->group(function(){

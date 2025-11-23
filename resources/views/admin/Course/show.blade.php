@@ -150,8 +150,8 @@
                                                                         <i class="fa fa-eye"></i> View Lessions
                                                                     </a>
 
-                                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm">
-                                                                        <i class="fa fa-pen"></i> Set Exam Slots
+                                                                    <a href="javascript:void(0)" class="btn btn-primary btn-sm manage_examslot_btn" data-topic="{{ $sem_topic->id }}" data-semester="{{ $semester->id }}">
+                                                                        <i class="fa fa-pen"></i> Manage Exam Slots
                                                                     </a>
 
                                                                 </div>
@@ -179,26 +179,154 @@
 
         </div> <!-- content -->
 
+        <!-- Add modal -->
+        <div class="modal fade" id="slotModal" tabindex="-1" role="dialog" aria-labelledby="slotModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content">
+                    <div class="modal-body p-4">
+                        <h3>Manage Exam Slots</h3>
+                        <form id="slotForm" class="" action="{{ route('admin.examslot.manage') }}" method="post">
+                            @csrf
+                            <input type="hidden" name="slot_id" id="slot_id">
+                            <input type="hidden" name="semester" id="semester_inp">
+                            <input type="hidden" name="topic" id="topic_inp">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="exam_slot">Slot <span class="text-danger">&#42;</span></label>
+                                        <input id="exam_slot" class="form-control" name="exam_slot" type="text" placeholder="Name" readonly>
+                                        <span class="text-danger error exam_slot_error"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="max_candidate">Max Candidate <span class="text-danger">&#42;</span></label>
+                                        <input id="max_candidate" class="form-control" name="max_candidate" type="text" placeholder="Max Candidate">
+                                        <span class="text-danger error max_candidate_error"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-info submitBtn">Submit</button>
+                            <button type="button" class="btn btn-danger cancel_edit" style="display: none;">Cancel</button>
+                        </form>
+                        <div>
+                            <h4>Exam Slots</h4>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Slot</th>
+                                            <th>Max Candidate</th>
+                                            <th>Remaining Seat</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="savedExamSlots">
+                                    </tbody>
+                                </table>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- /edit modal -->
+
     </div>
 @endsection
 
 @section('js')
     <script>
-        const TEACHERS = @json($teachers);
+        const currentDatetime = "{{ date('Y-m-d H:i:s') }}";
+        $(document).on('click', '.edit_slot', function() {
+            const __this = $(this);
+            const startsAt = __this.data('starts_at');
+            const slotId = __this.data('id');
+            const maxCandidate = __this.data('max_candidate');
 
-        $('#no_of_semester').on('change', function() {
-            const semNumber = parseInt($(this).val());
-            if (semNumber > 0) {
+            $('#slot_id').val(slotId);
+            // $('#exam_slot').val(startsAt);
+            $('#max_candidate').val(maxCandidate);
+            $('.cancel_edit').show();
+            initiateDtPicker(startsAt);
+            
+        });
+
+        $(document).on('click', '.cancel_edit', function() {
+            const __this = $(this);
+
+            $('#slot_id').val('');
+            $('#max_candidate').val('');
+            $('.cancel_edit').hide();
+            initiateDtPicker(currentDatetime);
+            
+        });
+
+        $(document).on('click', '.delete_item', function(){
+            const __this = $(this);
+            const actionUrl = __this.data('url');
+
+            Swal.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: 'You want to delete the slot!',
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then((response) => {
+                if(response.isConfirmed){
+                    $.ajax({
+                        method: 'POST',
+                        data: {},
+                        url: actionUrl,
+                        success: function(response) {
+                            Toast.fire({
+                                icon: 'success',
+                                title: response.message
+                            });
+
+                            __this.closest('tr').remove();
+                        },
+                        error: function(data) {
+                            var response = data.responseJSON;
+
+                            Toast.fire({
+                                icon: 'error',
+                                title: response.message
+                            });
+                        }
+
+                    });
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            $('.manage_examslot_btn').on('click', function() {
+                const __this = $(this);
+                const semester = __this.data('semester');
+                const topic = __this.data('topic');
+
+                $('#semester_inp').val(semester);
+                $('#topic_inp').val(topic);
+                $('#slot_id').val('');
+
                 let formData = new FormData();
-                formData.append('semesters', semNumber);
+                formData.append('semester', semester);
+                formData.append('topic', topic);
+
                 $.ajax({
                     type: 'POST',
-                    url: "{{ route('admin.course.get-topic-structure') }}",
+                    url: "{{ route('admin.examslot.index') }}",
                     processData: false,
                     contentType: false,
                     data: formData,
                     success: function(response) {
-                        $('#semesterTopicAccordion').html(response.html);
+                        $('#savedExamSlots').html(response.data.html);
+                        $('#slotModal').modal('show');
+                        initiateDtPicker(currentDatetime);
                     },
                     error: function(data) {
                         var response = data.responseJSON;
@@ -209,77 +337,9 @@
                         });
                     }
                 });
-            } else {
-                Toast.fire({
-                    icon: 'error',
-                    title: 'Semester number must a valid number and greater than 0'
-                });
-            }
-        });
-
-        $(document).on('click', '.add_more', function() {
-            const __this = $(this);
-            const closestWrap = __this.closest('.sem_topic_wrap');
-            let semId = __this.data('semid');
-            let lastIteration = parseInt(__this.data('last_iteration'));
-            lastIteration++;
-
-            let teacherOptions = '';
-            TEACHERS.forEach(teacher => {
-                teacherOptions += `<option value="${teacher.id}">${teacher.name}</option>`;
             });
 
-            let topicHtml = `<div class="row topic_item">
-                                <div class="col-md-12">
-                                    <h3>
-                                        Topic Details
-                                        <a href="javascript:void(0)" class="btn btn-danger delete_item"><i class="fa fa-times"></i></a>
-                                    </h3>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="t_name_${semId}_${lastIteration}">Topic Name <span class="text-danger">&#42;</span></label>
-                                        <input id="t_name_${semId}_${lastIteration}" class="form-control" name="t_name[${semId}][${lastIteration}]" type="text">
-                                        <span class="text-danger error t_name_${semId}_${lastIteration}_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="t_author_${semId}_${lastIteration}">Author <span class="text-danger">&#42;</span></label>
-                                        <select id="t_author_${semId}_${lastIteration}" name="t_author[${semId}][${lastIteration}]" class="form-control">
-                                            <option value="">Select Author</option>
-                                            ${teacherOptions}
-                                        </select>
-                                        <span class="text-danger error t_author_${semId}_${lastIteration}_error"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="t_description_${semId}_${lastIteration}">Description <span class="text-danger">&#42;</span></label>
-                                        <textarea id="t_description_${semId}_${lastIteration}" class="form-control" name="t_description[${semId}][${lastIteration}]" placeholder="Enter Description"></textarea>
-                                        <span class="text-danger error t_description_${semId}_${lastIteration}_error"></span>
-                                    </div>
-                                </div>
-                            </div>`;
-
-            $('.sem_topic_body', closestWrap).append(topicHtml);
-            __this.attr('data-last_iteration', lastIteration);
-        });
-
-        $(document).on('click', '.delete_item', function() {
-            $(this).closest('.topic_item').remove();
-        });
-
-        $(document).ready(function() {
-            $('#category').select2({
-                placeholder: 'Select Category'
-            });
-
-            $(document).on('click', '.submitBtn', function() {
-                $('form#updateForm').submit();
-            });
-
-            $('form#updateForm').on('submit', function() {
+            $('form#slotForm').on('submit', function() {
                 const submitBtn = $('.submitBtn');
                 const btnText = submitBtn.text();
                 submitBtn.html(
@@ -302,8 +362,9 @@
                         });
 
                         submitBtn.html(btnText);
-
-                        window.location.href = response.redirect_url;
+                        setTimeout(() => {
+                            location.reload(true);
+                        }, 1500);
                     },
                     error: function(data) {
                         var response = data.responseJSON;
@@ -325,5 +386,27 @@
                 return false;
             });
         });
+
+        function initiateDtPicker(forDateTime){
+            forDateTime = moment(forDateTime, "YYYY-MM-DD HH:mm:ss").format("DD/MM/YYYY hh:mm A");
+            $('#exam_slot').daterangepicker({
+                timePicker: true,
+                singleDatePicker: true,
+                showDropdowns: true,
+                minYear: {{ date('Y') - 1 }},
+                startDate: forDateTime,
+                // startDate: moment().startOf('hour'),
+                // endDate: moment().startOf('hour').add(32, 'hour'),
+                locale: {
+                    format: 'DD/MM/YYYY hh:mm A'
+                }
+            });
+
+            $('#exam_slot').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('DD/MM/YYYY hh:mm A'));
+                // $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
+            });
+
+        }
     </script>
 @endsection

@@ -20,8 +20,8 @@ class Examslot extends Model
         return $this->belongsTo(Topic::class);
     }
 
-    public function exampapers(){
-        return $this->hasMany(Exampaper::class);
+    public function exampaper(){
+        return $this->hasOne(Exampaper::class);
     }
     
 }

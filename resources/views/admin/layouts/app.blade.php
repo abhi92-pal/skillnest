@@ -64,6 +64,9 @@
     <!-- icons -->
     <link href="{{ asset('atportal/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
 
+    {{-- Daterange Picker --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
     <style media="screen">
         .ui-widget-content {
             z-index: 99999;
@@ -150,6 +153,10 @@
     <script src="{{ asset('atportal/assets/libs/auto-complete/jquery-ui.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/ladda/spin.min.js') }}"></script>
     <script src="{{ asset('atportal/assets/libs/ladda/ladda.min.js') }}"></script>
+
+    {{-- Daterange Picker --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
     <!-- App js-->
     <script src="{{ asset('atportal/assets/js/is.min.js') }}"></script>
