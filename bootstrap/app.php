@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ApiAuthenticationMiddleware;
 use App\Http\Middleware\IsAdminMiddleware;
 use App\Http\Middleware\IsTeacherMiddleware;
 use Illuminate\Foundation\Application;
@@ -27,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
                                 'isAdmin' => IsAdminMiddleware::class,
                                 'isTeacher' => IsTeacherMiddleware::class,
+                                'apiAuth' => ApiAuthenticationMiddleware::class,
                             ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
