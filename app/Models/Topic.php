@@ -20,6 +20,10 @@ class Topic extends Model
         return $this->hasMany(SemesterTopic::class);
     }
 
+    public function lessions(){
+        return $this->hasMany(Lession::class);
+    }
+
     public function author(){
         return $this->belongsTo(User::class, 'author_id', 'id');
     }

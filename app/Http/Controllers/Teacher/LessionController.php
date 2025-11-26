@@ -23,21 +23,49 @@ class LessionController extends Controller
     }
 
     public function store(Topic $topic, Request $request){
-        $request->validate([
+        // $request->validate([
+        //     'name' => 'required|max:200',
+        //     'description' => 'required',
+        //     'type' => 'required|in:Video,Text,Quiz',
+        //     'content_url' => 'required|nullable|url',
+        //     'duration' => 'required|numeric|gt:0',
+        // ]);
+
+        $rules = [
             'name' => 'required|max:200',
             'description' => 'required',
             'type' => 'required|in:Video,Text,Quiz',
-            'content_url' => 'required|nullable|url',
             'duration' => 'required|numeric|gt:0',
-        ]);
+        ];
+
+        if ($request->type === 'Video') {
+            $rules['content'] = 'required|file|mimes:mp4,m4v|max:200000';
+        }
+
+        if ($request->type === 'Text') {
+            $rules['content'] = 'required|file|mimes:pdf|max:20000';
+        }
+
+        if ($request->type === 'Quiz') {
+            $rules['content'] = 'nullable';
+        }
+
+        $request->validate($rules);
 
         try{
-            DB::transaction(function() use ($request, $topic) {
+            $path = null;
+            $filename = null;
+            if ($request->hasFile('content')) {
+                $filename = time() . '.' . $request->content->extension();
+                $path = $request->content->storeAs('images/lessions', $filename, 'public');
+            }
+
+            DB::transaction(function() use ($request, $topic, $filename) {
                 $topic->lessions()->create([
                     'type' => $request->type,
                     'name' => $request->name,
                     'description' => $request->description,
-                    'content_url' => $request->content_url,
+                    'content_url' => $filename,
                     'duration' => $request->duration,
                     'language' => 'EN',
                     'created_by' => Auth::id(),
@@ -49,5 +77,25 @@ class LessionController extends Controller
         }catch(\Exception $e){
             return response()->json(['message' => $e->getMessage()], 422);
         }
+    }
+
+    public function freezeCourse(Lession $lession){
+        if($lession->is_freezed == 'Yes'){
+            return response()->json(['message' => 'Lession is already freezed.'], 422);
+        }
+
+        $lession->update(['is_freezed' => 'Yes']);
+
+        return response()->json(['message' => 'Lession is freezed.']);
+    }
+
+    public function destroy(Lession $lession){
+        if($lession->is_freezed == 'Yes'){
+            return response()->json(['message' => "You can’t delete it because it is already frozen."], 422);
+        }
+
+        $lession->delete();
+
+        return response()->json(['message' => 'Lession is deleted successfully.']);
     }
 }

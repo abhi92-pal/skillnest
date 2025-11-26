@@ -18,7 +18,7 @@ class CourseController extends Controller
                                 $query->where('name', 'like', '%' . $search_title . '%');
                             })
                             ->where('status', 'Active')
-                            ->latest()->paginate();
+                            ->latest()->paginate(10);
         
         return view('teacher.course.index', compact('courses', 'search_title'));                    
     }
