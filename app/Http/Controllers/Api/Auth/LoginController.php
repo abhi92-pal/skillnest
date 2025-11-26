@@ -28,10 +28,9 @@ class LoginController extends Controller
 
         $jwtToken = $this->generateAuthToken($user);
 
-        return response()->json(['data' => [
-                                                'token' => $jwtToken['token'],
-                                                'expires_at' => $jwtToken['expires_at']
-                                            ], 
-                                'message' => 'Logged in successfully']);
+        return $this->sendSuccess('Logged in successfully', [
+                                                                'token' => $jwtToken['token'],
+                                                                'expires_at' => $jwtToken['expires_at']
+                                                            ]);
     }
 }
