@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'SkillNest') }} | Admin</title>
+    <title>{{ config('app.name', 'SkillNest') }} | Teacher</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -99,8 +99,8 @@
     data-layout='{"mode": "light", "width": "fluid", "menuPosition": "fixed", "sidebar": { "color": "light", "size": "default", "showuser": false}, "topbar": {"color": "dark"}, "showRightSidebarOnPageLoad": true}'>
     <!-- Begin page -->
     <div id="wrapper">
-        @include('admin.layouts.header')
-        @include('admin.layouts.sidebar')
+        @include('teacher.layouts.header')
+        @include('teacher.layouts.sidebar')
 
         @yield('content')
     </div>

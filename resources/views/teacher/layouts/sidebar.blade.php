@@ -48,7 +48,7 @@
                 <li class="menu-title">Navigation</li>
 
                 <li>
-                    <a href="{{ route('admin.dashboard') }}">
+                    <a href="{{ route('teacher.dashboard') }}">
                         <i data-feather="airplay"></i>
                         <span> Dashboards </span>
                     </a>
@@ -63,36 +63,15 @@
                     <div class="collapse" id="menu_course">
                         <ul class="nav-second-level">
                           <li>
-                            <a href="{{ route('admin.course.index') }}">Courses</a>
-                          </li>
-                          <li>
-                            <a href="{{ route('admin.course.create') }}">Add</a>
+                            <a href="{{ route('teacher.course.index') }}">Courses</a>
                           </li>
 
                         </ul>
                     </div>
                 </li>
                 
-                <li>
-                    <a href="#menu_teacher" data-toggle="collapse">
-                        <i data-feather="settings"></i>
-                        <span> Teacher Management </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="menu_teacher">
-                        <ul class="nav-second-level">
-                          <li>
-                            <a href="{{ route('admin.teacher.index') }}">Teachers</a>
-                          </li>
-                          {{-- <li>
-                            <a href="{{ route('admin.teacher.create') }}">Add</a>
-                          </li> --}}
-
-                        </ul>
-                    </div>
-                </li>
                 
-                <li>
+                {{-- <li>
                     <a href="#menu_student" data-toggle="collapse">
                         <i data-feather="settings"></i>
                         <span> Student Management </span>
@@ -109,7 +88,7 @@
 
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
             </ul>
 
