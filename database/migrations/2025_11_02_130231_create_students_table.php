@@ -15,7 +15,6 @@ return new class extends Migration
             $table->uuid('id')->primary();
             $table->uuid('user_id');
             $table->string('reg_no')->nullable();
-            $table->string('roll_no')->nullable();
             $table->string('father_name')->nullable();
             $table->string('mother_name')->nullable();
             $table->text('line_1')->nullable();

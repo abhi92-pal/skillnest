@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student_lessions', function (Blueprint $table) {
+        Schema::create('studentcourses', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->uuid('student_id');
-            $table->uuid('lession_id');
-            $table->enum('status', ['Not Started', 'In Progress', 'Completed'])->default('Not Started');
-            $table->integer('progress')->default(0);
+            $table->uuid('course_id');
+            $table->string('roll_no');
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('course_id')->on('courses')->references('id')->onDelete('cascade');
             $table->foreign('student_id')->on('students')->references('id')->onDelete('cascade');
-            $table->foreign('lession_id')->on('lessions')->references('id')->onDelete('cascade');
         });
     }
 
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student_lessions');
+        Schema::dropIfExists('studentcourses');
     }
 };

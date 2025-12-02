@@ -21,11 +21,16 @@ class UserSeeder extends Seeder
             'password' => Hash::make(12345678),
         ]);
         
-        User::create([
-            'name' => 'Teacher User',
-            'role' => 'Teacher',
-            'email' => 'teacher@gmail.com',
-            'password' => Hash::make(12345678),
+        $teacher_user = User::create([
+                        'name' => 'Teacher User',
+                        'role' => 'Teacher',
+                        'email' => 'teacher@gmail.com',
+                        'password' => Hash::make(12345678),
+                    ]);
+
+        $teacher_user->teacher()->create([
+            'designation' => 'Head Of The Department, IT',
+            'about' => 'I am an ambitious workaholic, but apart from that, pretty simple person.'
         ]);
     }
 }
