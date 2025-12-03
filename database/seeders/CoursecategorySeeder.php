@@ -16,28 +16,63 @@ class CoursecategorySeeder extends Seeder
     {
         Coursecategory::create([
             'name' => 'Web Development',
-            'file' => NULL,
+            'file' => 'images/coursecategory/work-1.jpg',
             'short_description' => 'Learn to build websites and web applications.',
             'status' => 'Active',
         ]);
 
         Coursecategory::create([
             'name' => 'Web Design',
-            'file' => NULL,
+            'file' => 'images/coursecategory/work-2.jpg',
             'short_description' => 'Learn to build websites and web applications.',
             'status' => 'Active',
         ]);
 
         Coursecategory::create([
             'name' => 'Data Science',
-            'file' => NULL,
+            'file' => 'images/coursecategory/work-3.jpg',
             'short_description' => 'Learn to build websites and web applications.',
             'status' => 'Active',
         ]);
 
         Coursecategory::create([
             'name' => 'Data Analytics',
-            'file' => NULL,
+            'file' => 'images/coursecategory/work-4.jpg',
+            'short_description' => 'Learn to build websites and web applications.',
+            'status' => 'Active',
+        ]);
+
+        Coursecategory::create([
+            'name' => 'Photography',
+            'file' => 'images/coursecategory/work-5.jpg',
+            'short_description' => 'Learn to build websites and web applications.',
+            'status' => 'Active',
+        ]);
+
+        Coursecategory::create([
+            'name' => 'Health',
+            'file' => 'images/coursecategory/work-6.jpg',
+            'short_description' => 'Learn to build websites and web applications.',
+            'status' => 'Active',
+        ]);
+
+        Coursecategory::create([
+            'name' => 'Audio Video',
+            'file' => 'images/coursecategory/work-7.jpg',
+            'short_description' => 'Learn to build websites and web applications.',
+            'status' => 'Active',
+        ]);
+
+        Coursecategory::create([
+            'name' => 'IT & Software',
+            'file' => 'images/coursecategory/work-8.jpg',
+            'short_description' => 'Learn to build websites and web applications.',
+            'status' => 'Active',
+        ]);
+
+        Coursecategory::create([
+            'name' => 'Music',
+            'file' => 'images/coursecategory/work-9.jpg',
             'short_description' => 'Learn to build websites and web applications.',
             'status' => 'Active',
         ]);

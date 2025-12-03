@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Coursecategory;
+use App\Models\Semester;
+use App\Models\Topic;
 use Illuminate\Http\Request;
 
 class CourseController extends Controller
@@ -29,5 +31,42 @@ class CourseController extends Controller
         }
 
         return $this->sendSuccess('Course list fetched successfully', ['category_wise_courses' => $categories]);
+    }
+    
+    public function index(Request $request){
+        // $courses = Course::where('is_published', 'Yes')->where('status', 'Active')
+        //                             ->paginate(10);
+        $courses = Course::paginate(10);
+
+        $courses->getCollection()->transform(function ($course) {
+            $course->file_path = asset('storage/' . $course->file_path);
+            return $course;
+        });
+
+        return $this->sendSuccess('Course list fetched successfully', ['courses' => $courses]);
+    }
+    
+    public function show(Course $course){
+        $course->load(['coursecategories']);
+        $course->file_path = asset('storage/' . $course->file_path);
+        $semesters = Semester::where('exam_sequence', '<=', $course->no_of_semesters)->get();
+
+        foreach($semesters as $semester){
+            $topics = Topic::where('course_id', $course->id)
+                            ->whereHas('semester_topics', function($query) use ($semester){
+                                $query->where('semester_id', $semester->id);
+                            })->get();
+
+            $semester->sem_topics = $topics;
+
+        }
+        
+        $course->coursecategories = $course->coursecategories->map(function($category){
+            $category->file = asset('storage/' . $category->file);
+            return $category;
+        });
+
+
+        return $this->sendSuccess('Course list fetched successfully', ['course' => $course, 'semesters' => $semesters]);
     }
 }
