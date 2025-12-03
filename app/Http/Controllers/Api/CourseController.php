@@ -33,6 +33,7 @@ class CourseController extends Controller
         return $this->sendSuccess('Course list fetched successfully', ['category_wise_courses' => $categories]);
     }
     
+    // Course list api
     public function index(Request $request){
         // $courses = Course::where('is_published', 'Yes')->where('status', 'Active')
         //                             ->paginate(10);
