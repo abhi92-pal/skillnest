@@ -18,6 +18,7 @@ class CourseCategoryController extends Controller
         if($categories->count()){
             foreach($categories as $category){
                 $category->file = $category->file ? asset('storage/' . $category->file) : '';
+                $category->course_count = $category->courses()->count();
             }
         }
 
