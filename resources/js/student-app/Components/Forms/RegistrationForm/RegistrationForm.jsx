@@ -49,6 +49,8 @@ const RegistrationForm = () => {
 
     return (
         <React.Fragment>
+            <h3 className="mb-4">Register Now</h3>
+            
             <form action="#" className="signup-form">
                 <InputField 
                     label="Full Name"

@@ -1,14 +1,35 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
+import axios from "axios";
+import * as ApiRoutes from '../../Routes/Routes';
 
 const CourseCategories = () => {
-	const categories = [
-		{ title: "IT & Software", image: "images/work-1.jpg", count: "100 course" },
-		{ title: "Music", image: "images/work-9.jpg", count: "100 course" },
-		{ title: "Photography", image: "images/work-3.jpg", count: "100 course" },
-		{ title: "Marketing", image: "images/work-5.jpg", count: "100 course" },
-		{ title: "Health", image: "images/work-8.jpg", count: "100 course" },
-		{ title: "Audio Video", image: "images/work-6.jpg", count: "100 course" },
-	];
+	
+	const [categories, setCategories] = useState([]);
+	const [loading, setLoading] = useState(true);
+	// const fetchedRef = useRef(false);
+
+	useEffect(() => {
+		// if (fetchedRef.current) return; 
+        // fetchedRef.current = true;
+
+		const fetchCategories = async () => {
+			try {
+				const response = await axios.get(ApiRoutes.COURSE_CATEGORY_API);
+				
+				setCategories(response.data.data.categories);
+			} catch (error) {
+				console.error("Error fetching categories:", error);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchCategories();
+	}, []);
+
+	if (loading) {
+		return <div className="text-center py-5">Loading categories...</div>;
+	}
 
 	return (
 		<section className="ftco-section">
@@ -26,11 +47,11 @@ const CourseCategories = () => {
 							<a
 								href="#"
 								className="course-category img d-flex align-items-center justify-content-center"
-								style={{ backgroundImage: `url(${category.image})` }}
+								style={{ backgroundImage: `url(${category.file})` }}
 							>
 								<div className="text w-100 text-center">
-									<h3>{category.title}</h3>
-									<span>{category.count}</span>
+									<h3>{category.name}</h3>
+									<span>{category.course_count} Course</span>
 								</div>
 							</a>
 						</div>
