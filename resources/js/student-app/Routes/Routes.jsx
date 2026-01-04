@@ -10,3 +10,4 @@ export const COURSES_PAGE = '/courses';
 export const COURSE_CATEGORY_API = API_BASE_URL + 'category-list';
 export const LOGIN_API = API_BASE_URL + 'login';
 export const AUTH_REFRESH_API = API_BASE_URL + 'refresh';
+export const REGISTER_API = API_BASE_URL + 'register';

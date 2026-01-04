@@ -9,12 +9,20 @@ import { auth } from '../../../store/actions';
 
 function LoginForm() {
 	const dispatch = useDispatch();
-    const { loading, errors, errorMessage, user, token, redirectRoute } = useSelector((state) => state.auth);
+    const { loading, errors, errorMessage, successMessage, token, redirectRoute } = useSelector((state) => state.auth);
 
-	const [formData, setFormData] = useState({
-		email: "",
-		password: ""
-	});
+	const initialFormData = {
+                                email: "",
+                                password: "",
+                            };
+
+	const [formData, setFormData] = useState(initialFormData);
+
+	useEffect(() => {
+		if(token){
+			setFormData(initialFormData);
+		}
+	}, [token])
 
 	// const [errors, setErrors] = useState({});
 	// const [loading, setLoading] = useState(false);
@@ -122,7 +130,7 @@ function LoginForm() {
 								<span className="fa fa-paper-plane"></span>
 							</button>
 						</div>
-					) : 'You are already logged in.'
+					) : ( successMessage ? (<span className='text-success'>{ successMessage }</span>) : 'You are already logged in.' )
 				}
 				
 			</form>

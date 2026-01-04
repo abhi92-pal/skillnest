@@ -156,7 +156,7 @@ export const autoLoginHandler = () => {
         } else {
             const expirationDate = new Date(localStorage.getItem('expirationDate'));
             if (expirationDate > new Date()) {
-                console.log('Auto Logged in');
+                // console.log('Auto Logged in');
                 
                 const authData = {
                                     data: {
@@ -169,7 +169,7 @@ export const autoLoginHandler = () => {
                 const expirationTime = ((expirationDate.getTime() - new Date().getTime()) / 1000);
                 dispatch(checkAuthTimeOut(expirationTime));
             } else {
-                console.log('Logged out');
+                // console.log('Logged out');
                 dispatch(logout());
             }
         }
@@ -196,29 +196,33 @@ export const registerSuccess = (newUserData) => {
     };
 };
 
-export const registerFail = (error) => {
+export const registerFail = (errors, errorMessage) => {
     return {
         type: actionTypes.REGISTER_FAIL,
-        error: error
+        errors: errors,
+        errorMessage: errorMessage
     };
 };
 
 export const register = (registerFormData) => {
     return dispatch => {
         dispatch(registerStart());
-        axios.post('/auth/register', registerFormData)
+        axios.post(Routes.REGISTER_API, registerFormData)
             .then(response => {
-                console.log(response);
-                const expirationDate = new Date(new Date().getTime() + response.data.expires_in * 1000);
-                localStorage.setItem('_token', response.data.access_token);
+                // console.log(response);
+
+                const expirationDate = new Date(response.data.data.expires_at * 1000);
+                localStorage.setItem('_token', response.data.data.token);
                 localStorage.setItem('expirationDate', expirationDate);
-                dispatch(authSuccess(response.data.access_token));
-                dispatch(fetchUserDetails());
-                dispatch(checkAuthTimeOut(response.data.expires_in));
+                
+                dispatch(authSuccess(response.data));
+                // dispatch(fetchUserDetails());
+                dispatch(checkAuthTimeOut(response.data.data.expires_at));
             })
             .catch(error => {
-                console.log(error);
-                dispatch(registerFail(error));
+                // console.log(error);
+                const errResp = error.response.data;
+                dispatch(registerFail(errResp.errors, errResp.message));
             })
     };
 };

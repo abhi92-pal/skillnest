@@ -25,6 +25,7 @@ class RegisterController extends Controller
         try{
             DB::transaction(function() use ($request, &$user){
                 $user = User::create([
+                    'role' => 'Student',
                     'name' => $request->name,
                     'email' => $request->email,
                     'phone' => $request->phone,
