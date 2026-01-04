@@ -90,7 +90,7 @@ function LoginForm() {
 		if(redirectRoute){
 			authRedirect = <Navigate to={redirectRoute} replace />
 		}else{
-			authRedirect = <Navigate to='/' replace />
+			authRedirect = <Navigate to={Routes.MY_COURSES_PAGE} replace />
 		}
 	}
 

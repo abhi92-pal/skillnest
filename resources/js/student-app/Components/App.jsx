@@ -5,6 +5,7 @@ import initJqueryPlugins from '../jquery/main.js';
 import NavBar from './Layouts/NavBar/index';
 import Welcome from './Pages/Welcome';
 import CoursePage from './Pages/CoursePage';
+import MyCoursePage from './Pages/MyCoursePage';
 import Footer from './Layouts/Footer/index.jsx';
 import AboutUsPage from './Pages/AboutUsPage.jsx';
 import * as WebRoutes from '../Routes/Routes';
@@ -34,6 +35,7 @@ const App = () => {
                 <Route path={WebRoutes.WELCOME_PAGE} element={<Welcome />} />
                 <Route path={WebRoutes.ABOUT_US_PAGE} element={<AboutUsPage />} />
                 <Route path={WebRoutes.COURSES_PAGE} element={<CoursePage />} />
+                <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
             </Routes>
             <Footer />
         </Router>

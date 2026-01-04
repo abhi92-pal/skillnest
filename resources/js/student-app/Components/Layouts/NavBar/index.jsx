@@ -50,12 +50,12 @@ export default function index() {
                                         className="dropdown-menu dropdown-menu-right"
                                         aria-labelledby="userDropdown"
                                     >
-                                        <Link className="dropdown-item" to="/menu2">
-                                            Menu 2
+                                        <Link className="dropdown-item" to={Routes.MY_COURSES_PAGE}>
+                                            My Courses
                                         </Link>
-                                        <Link className="dropdown-item" to="/profile">
+                                        {/* <Link className="dropdown-item" to={Routes.PROFILE_PAGE}>
                                             Profile
-                                        </Link>
+                                        </Link> */}
                                         <div className="dropdown-divider"></div>
                                         <span
                                             className="dropdown-item"
