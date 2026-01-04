@@ -26,6 +26,8 @@ Route::controller(CourseController::class)->group(function(){
 });
 
 Route::middleware(['apiAuth'])->group(function(){
+    Route::post('/refresh', [LoginController::class, 'refresh']);
+    
     Route::controller(UserController::class)->group(function(){
         Route::get('/profile', 'profile');
     });

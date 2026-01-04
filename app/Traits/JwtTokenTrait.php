@@ -18,8 +18,9 @@ trait JwtTokenTrait
         ];
 
         $jwt = JWT::encode($payload, env('JWT_SECRET'), 'HS256');
-
-        return ['token' => $jwt, 'expires_at' => date('Y-m-d H:i:s', $expires_at)];
+        
+        // return ['token' => $jwt, 'expires_at' => date('Y-m-d H:i:s', $expires_at)];
+        return ['token' => $jwt, 'expires_at' => $expires_at];
     }
 
     public function checkAuthToken($token){
