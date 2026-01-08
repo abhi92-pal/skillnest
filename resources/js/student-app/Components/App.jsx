@@ -9,15 +9,24 @@ import InstructorPage from './Pages/InstructorPage';
 import Footer from './Layouts/Footer/index.jsx';
 import AboutUsPage from './Pages/AboutUsPage.jsx';
 import ContactPage from './Pages/ContactPage.jsx';
+import MyCoursePage from './Pages/MyCoursePage';
+import Footer from './Layouts/Footer/index.jsx';
+import AboutUsPage from './Pages/AboutUsPage.jsx';
+import * as WebRoutes from '../Routes/Routes';
+import { useDispatch } from 'react-redux';
+import { autoLoginHandler } from '../store/actions';
 
 const App = () => {
     const JQueryInitializer = () => {
         const location = useLocation();
+        const dispatch = useDispatch();
 
         useEffect(() => {
             if (window.$) {
                 initJqueryPlugins();
             }
+
+            dispatch(autoLoginHandler());
         }, [location.pathname]); // Runs every time the route changes
 
         return null;
@@ -27,9 +36,10 @@ const App = () => {
             <JQueryInitializer />
             <NavBar />
             <Routes>
-                <Route path="/" element={<Welcome />} />
-                <Route path="/about-us" element={<AboutUsPage />} />
-                <Route path="/courses" element={<CoursePage />} />
+                <Route path={WebRoutes.WELCOME_PAGE} element={<Welcome />} />
+                <Route path={WebRoutes.ABOUT_US_PAGE} element={<AboutUsPage />} />
+                <Route path={WebRoutes.COURSES_PAGE} element={<CoursePage />} />
+                <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
                 <Route path="/instructors" element={<InstructorPage />} />
                 <Route path="/contact" element={<ContactPage />} />
             </Routes>

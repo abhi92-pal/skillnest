@@ -31,3 +31,10 @@
 
 ## Courses Management (List Page)
 ### Course List
+
+
+# Redux Setup
+=====================================
+
+## npm install redux react-redux redux-thunk -- Outdated
+## npm install @reduxjs/toolkit react-redux <- here redux-thunk is included

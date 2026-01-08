@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\{
     UserController,
     TeacherController
 };
+use App\Http\Controllers\Api\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/teachers', [TeacherController::class, 'index']);
+Route::post('/register', [RegisterController::class, 'register']);
 
 Route::controller(CourseCategoryController::class)->group(function(){
     Route::get('/category-list', 'index');
@@ -28,6 +30,8 @@ Route::controller(CourseController::class)->group(function(){
 });
 
 Route::middleware(['apiAuth'])->group(function(){
+    Route::post('/refresh', [LoginController::class, 'refresh']);
+    
     Route::controller(UserController::class)->group(function(){
         Route::get('/profile', 'profile');
     });
