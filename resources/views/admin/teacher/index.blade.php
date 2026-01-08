@@ -63,7 +63,7 @@
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
                                                             {{-- <a href="" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a> --}}
-                                                            <a href="javascript:void(0)" data-name="{{ $teacher->name }}" data-email="{{ $teacher->email }}" data-status="{{ $teacher->status }}" data-url="{{ route('admin.teacher.update', $teacher->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a>
+                                                            <a href="javascript:void(0)" data-name="{{ $teacher->name }}" data-email="{{ $teacher->email }}" data-status="{{ $teacher->status }}" data-desg="{{ $teacher->teacher->designation }}" data-about="{{ $teacher->teacher->about }}" data-url="{{ route('admin.teacher.update', $teacher->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -107,6 +107,17 @@
                                             placeholder="Profile Picture">
                                             <span class="text-danger error profile_pic_error"></span>
                                     </div>
+                                    <div class="form-group">
+                                        <label for="designation">Designation </label>
+                                        <input id="designation" class="form-control" name="designation" type="text"
+                                            placeholder="Designation">
+                                            <span class="text-danger error designation_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="about">About </label>
+                                        <textarea id="about" class="form-control" name="about" placeholder="Short Bio" rows="5" cols="30"></textarea>
+                                        <span class="text-danger error about_error"></span>
+                                    </div>
                                     <button type="submit" class="btn btn-info submitBtn">Submit</button>
                                 </form>
                             </div>
@@ -141,6 +152,17 @@
                                         <input id="image" class="form-control" name="profile_pic" type="file"
                                             placeholder="Profile Picture">
                                             <span class="text-danger error profile_pic_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_designation">Designation </label>
+                                        <input id="edit_designation" class="form-control" name="designation" type="text"
+                                            placeholder="Designation">
+                                            <span class="text-danger error designation_error"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="edit_about">About </label>
+                                        <textarea id="edit_about" class="form-control" name="about" placeholder="Short Bio" rows="5" cols="30"></textarea>
+                                        <span class="text-danger error about_error"></span>
                                     </div>
                                     <div class="form-group">
                                         <label for="image">Status </label>
@@ -229,10 +251,14 @@
                 var name = $(this).data('name');
                 var email = $(this).data('email');
                 var status = $(this).data('status');
+                var desg = $(this).data('desg');
+                var about = $(this).data('about');
                 var url = $(this).data('url');
 
                 $('#edit_name').val(name);
                 $('#edit_email').val(email);
+                $('#edit_designation').val(desg);
+                $('#edit_about').val(about);
                 $('#edit_status').val(status).trigger('change');
                 $('#editForm').attr('action', url);
                 // You can set the id in a hidden input field if needed

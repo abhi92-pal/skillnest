@@ -4,7 +4,8 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\{
     CourseCategoryController,
     CourseController,
-    UserController
+    UserController,
+    TeacherController
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 // })->middleware('auth:sanctum');
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/teachers', [TeacherController::class, 'index']);
 
 Route::controller(CourseCategoryController::class)->group(function(){
     Route::get('/category-list', 'index');

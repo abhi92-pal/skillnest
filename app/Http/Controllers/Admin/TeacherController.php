@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
 use App\Models\User;
+use App\Models\Teacher;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -14,7 +15,9 @@ class TeacherController extends Controller
     public function index(Request $request)
     {
 
-        $teachers = User::where('role', 'Teacher')->get();
+        $teachers = User::with('teacher')->where('role', 'Teacher')->get();
+
+        // dd($teachers);
         return view('admin.teacher.index', compact('teachers'));
     }
 
@@ -30,6 +33,8 @@ class TeacherController extends Controller
             [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
+                'designation' => 'required|max:100',
+                'about' => 'required|max:200',
                 'profile_pic' => 'required|mimes:jpg,jpeg,png,webp|max:2048',
             ],
             [
@@ -56,12 +61,18 @@ class TeacherController extends Controller
             $path = $request->profile_pic->storeAs('images/teachers', $filename, 'public');
         }
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'profile_pic' => $filename,
             'role' => 'Teacher',
             'password' => Hash::make('000000'), // Set a default password or generate one
+        ]);
+
+        Teacher::create([
+            'user_id' => $user->id,
+            'designation' => $request->designation,
+            'about' => $request->about,
         ]);
         return response()->json(['success' => true, 'message' => 'Teacher created successfully.'], 200);
     }
@@ -74,6 +85,8 @@ class TeacherController extends Controller
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email,' . $user->id,
                 'status' => 'required|string|in:Active,Inactive',
+                'designation' => 'required|max:100',
+                'about' => 'required|max:200',
                 'profile_pic' => 'nullable|mimes:jpg,jpeg,png,webp|max:2048',
                 'password' => 'nullable|string|min:6',
             ],
@@ -108,6 +121,19 @@ class TeacherController extends Controller
             'status'      => $request->status,
             'password'    => Hash::make($request->password),
         ]);
+
+        if(Teacher::where('user_id', $user->id)->first()){
+            Teacher::where('user_id', $user->id)->update([
+                'designation' => $request->designation,
+                'about' => $request->about,
+            ]);
+        }else{
+            Teacher::create([
+                'user_id' => $user->id,
+                'designation' => $request->designation,
+                'about' => $request->about,
+            ]);
+        }
 
 
         return response()->json(['success' => true, 'message' => 'Teacher updated successfully.'], 200);

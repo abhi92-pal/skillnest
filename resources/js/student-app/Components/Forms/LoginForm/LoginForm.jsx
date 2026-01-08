@@ -13,8 +13,21 @@ function LoginForm() {
 	const [loading, setLoading] = useState(false);
 
 	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
+		const {name, value} = e.target;
+		// const name = e.target.name;
+		// const value = e.target.value;
+
+		// setFormData({
+		// 	email: value,
+		// 	password: formData.password
+		// })
+
+		setFormData((prev) => ({...prev, [name]: value}));
+
+
+
+		// const { name, value } = e.target;
+		// setFormData((prev) => ({ ...prev, [name]: value }));
 	};
 
 	const validate = () => {

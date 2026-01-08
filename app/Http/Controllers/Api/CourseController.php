@@ -37,7 +37,7 @@ class CourseController extends Controller
     public function index(Request $request){
         // $courses = Course::where('is_published', 'Yes')->where('status', 'Active')
         //                             ->paginate(10);
-        $courses = Course::when($request->coursecategory_id, function ($query) use ($request) {
+        $courses = Course::with('coursecategories')->when($request->coursecategory_id, function ($query) use ($request) {
             $query->whereHas('coursecategories', function ($q) use ($request) {
                 $q->where('coursecategory_id', $request->coursecategory_id);
             });

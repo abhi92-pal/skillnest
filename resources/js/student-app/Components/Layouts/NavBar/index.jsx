@@ -21,8 +21,8 @@ export default function index() {
                             <li className={isActive('/')}><Link to="/" className="nav-link">Home</Link></li>
                             <li className={isActive('/about-us')}><Link to="/about-us" className="nav-link">About</Link></li>
                             <li className={isActive('/courses')}><Link to="/courses" className="nav-link">Course</Link></li>
-                            <li className="nav-item"><a href="instructor.html" className="nav-link">Instructor</a></li>
-                            <li className="nav-item"><a href="contact.html" className="nav-link">Contact</a></li>
+                            <li className={isActive('/instructors')}><Link to="/instructors" className="nav-link">Instructor</Link></li>
+                            <li className={isActive('/contact')}><Link to="/contact" className="nav-link">Contact</Link></li>
                         </ul>
                     </div>
                 </div>

@@ -11,9 +11,19 @@ import LoginForm from '../Forms/LoginForm/LoginForm';
 
 const Welcome = () => {
     const [showLoginForm, setShowLoginForm] = useState(false);
+
+    console.log(showLoginForm);
+
+    const changeState = () => {
+        setShowLoginForm(!showLoginForm);
+    }
+
     return (
         <React.Fragment>
             <HomeBanner />
+            {/* <button type='button' className='btn btn-success' onClick={() => setShowLoginForm(true)}>Change State</button> */}
+            {/* <button type='button' className='btn btn-success' onClick={() => setShowLoginForm(!showLoginForm)}>Change State</button> */}
+            {/* <button type='button' className='btn btn-success' onClick={changeState}>Change State</button> */}
             <section className="ftco-section ftco-no-pb ftco-no-pt">
                 <div className="container">
                     <div className="row">
@@ -26,6 +36,8 @@ const Welcome = () => {
 
 
                                 <p className="text-center">
+                                    
+                                    
                                     {showLoginForm ? (
                                         <>
                                             Don't have an account?{" "}

@@ -6,4 +6,6 @@ export const API_BASE_URL = WEB_BASE_URL + 'api/';
 
 // ############ Api endpoints ############ 
 export const COURSE_CATEGORY_API = API_BASE_URL + 'category-list';
+export const COURSES_API = API_BASE_URL + 'courses';
+export const TEACHERS_API = API_BASE_URL + 'teachers';
 export const LOGIN_API = API_BASE_URL + 'login';
