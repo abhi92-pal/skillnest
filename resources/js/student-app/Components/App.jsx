@@ -10,8 +10,6 @@ import Footer from './Layouts/Footer/index.jsx';
 import AboutUsPage from './Pages/AboutUsPage.jsx';
 import ContactPage from './Pages/ContactPage.jsx';
 import MyCoursePage from './Pages/MyCoursePage';
-import Footer from './Layouts/Footer/index.jsx';
-import AboutUsPage from './Pages/AboutUsPage.jsx';
 import * as WebRoutes from '../Routes/Routes';
 import { useDispatch } from 'react-redux';
 import { autoLoginHandler } from '../store/actions';
