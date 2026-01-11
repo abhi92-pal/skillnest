@@ -2,6 +2,7 @@ import * as actionTypes from '../actions/actionTypes';
 
 const initialState =  {
     token: null,
+    isAuthChecked: false,
     errors: [],
     errorMessage: null,
     successMessage: null,
@@ -50,6 +51,11 @@ const authReducer = (state = initialState, action) => {
             return {
                 ...state,
                 redirectRoute: action.redirect_path
+            }
+        case actionTypes.AUTO_LOGIN_INITIATE:
+            return {
+                ...state,
+                isAuthChecked: true
             }
         case actionTypes.GET_AUTH_DETAILS:
             return {

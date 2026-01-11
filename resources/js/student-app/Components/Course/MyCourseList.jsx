@@ -27,11 +27,11 @@ const MyCourseList = ({ course }) => {
     return (
         <React.Fragment>
             <div className="row">
-                {courses.map((course, index) => (
-                    <div className="col-md-4 d-flex align-items-stretch " key={index}>
+                {courses.length > 0 ? courses.map((course, index) => (
+                    <div className="col-md-3 d-flex align-items-stretch " key={index}>
                         <Course course={course} showPricing={false} />
                     </div>
-                ))}
+                )) : <div className="text-center w-100">You did not purchase any courses!</div>}
             </div>
 
             <div className="row mt-5">

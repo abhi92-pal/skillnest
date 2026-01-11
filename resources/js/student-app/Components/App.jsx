@@ -13,6 +13,7 @@ import MyCoursePage from './Pages/MyCoursePage';
 import * as WebRoutes from '../Routes/Routes';
 import { useDispatch } from 'react-redux';
 import { autoLoginHandler } from '../store/actions';
+import AuthGuard from './AuthGuard/AuthGuard';
 
 const App = () => {
     const JQueryInitializer = () => {
@@ -37,9 +38,12 @@ const App = () => {
                 <Route path={WebRoutes.WELCOME_PAGE} element={<Welcome />} />
                 <Route path={WebRoutes.ABOUT_US_PAGE} element={<AboutUsPage />} />
                 <Route path={WebRoutes.COURSES_PAGE} element={<CoursePage />} />
-                <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
                 <Route path="/instructors" element={<InstructorPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route element={<AuthGuard />}>
+                    <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
+                    {/* <Route path={WebRoutes.PROFILE_PAGE} element={<ProfilePage />} /> */}
+                </Route>
             </Routes>
             <Footer />
         </Router>

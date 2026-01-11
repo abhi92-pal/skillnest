@@ -7,7 +7,7 @@ const MyCoursePage = () => {
         <React.Fragment>
             <CommonBanner title="My Courses" />
             <section className="ftco-section bg-light">
-                <div className="container">
+                <div className="container-fluid">
                     <MyCourseList/>
                 </div>
             </section>
