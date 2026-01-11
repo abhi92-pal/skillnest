@@ -11,5 +11,6 @@ export {
 } from './courseCategory';
 
 export {
-    fetchMyCourses
+    fetchMyCourses,
+    fetchMyCourseDetails
 } from './myCourse';

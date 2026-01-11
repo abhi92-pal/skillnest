@@ -45,7 +45,7 @@ const CourseList = ({ course }) => {
             <div className="row">
                 {courses.map((course, index) => (
                     <div className="col-md-6 d-flex align-items-stretch " key={index}>
-                        <Course course={course} />
+                        <Course course={course} detailsLinkStructure={ApiRoutes.COURSE_DETAILS_PAGE} />
                     </div>
                 ))}
             </div>

@@ -37,3 +37,39 @@ export const fetchFail = (errorMessage) => {
         errorMessage: errorMessage
      }
 }
+
+export const fetchMyCourseDetailsStart = () => {
+    return {
+        type: actionTypes.MY_COURSE_DETAILS_FETCHED_START
+    }
+}
+
+export const fetchMyCourseDetails = (courseId) => {
+    return dispatch => {
+        const fetchCourseApi = Routes.MY_COURSE_DETAILS_API.replace('_courseId_', courseId)
+        dispatch(fetchMyCourseDetailsStart())
+        axios.get(fetchCourseApi)
+                .then(response => {
+                    dispatch(fetchMyCourseDetailsSuccess(response.data.course, response.data.semesters))
+                }).catch(error => {
+                    console.log(error);
+                    dispatch(fetchMyCourseDetailsFail(error.message, error.response.status))
+                })
+    }
+}
+
+export const fetchMyCourseDetailsSuccess = (course, semesters) => {
+    return {
+        type: actionTypes.MY_COURSE_DETAILS_FETCHED_SUCCESS,
+        course: course,
+        semesters: semesters,
+    }
+}
+
+export const fetchMyCourseDetailsFail = (errorMessage, statusCode) => {
+    return {
+        type: actionTypes.MY_COURSE_DETAILS_FETCHED_FAIL,
+        errorMessage: errorMessage,
+        statusCode: statusCode
+    }
+}

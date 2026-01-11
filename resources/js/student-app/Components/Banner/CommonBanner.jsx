@@ -1,12 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import bgImage from '../../../../../public/images/bg_2.jpg';
 
 const CommonBanner = ({ title }) => {
     return (
         <React.Fragment>
             <section
                 className="hero-wrap hero-wrap-2"
-                style={{ backgroundImage: "url('images/bg_2.jpg')" }}
+                style={{ backgroundImage: `url(${bgImage})` }}
             >
                 <div className="overlay"></div>
                 <div className="container">

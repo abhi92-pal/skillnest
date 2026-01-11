@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Course from './Course';
-import axios from "axios";
-import * as ApiRoutes from '../../Routes/Routes';
+import * as Routes from '../../Routes/Routes';
 import Pagination from "../Pagination/Pagination";
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyCourses } from '../../store/actions/index';
@@ -29,7 +28,7 @@ const MyCourseList = ({ course }) => {
             <div className="row">
                 {courses.length > 0 ? courses.map((course, index) => (
                     <div className="col-md-3 d-flex align-items-stretch " key={index}>
-                        <Course course={course} showPricing={false} />
+                        <Course course={course} showPricing={false} detailsLinkStructure={Routes.MY_COURSE_DETAILS_PAGE} />
                     </div>
                 )) : <div className="text-center w-100">You did not purchase any courses!</div>}
             </div>
