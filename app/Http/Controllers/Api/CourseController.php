@@ -92,4 +92,28 @@ class CourseController extends Controller
 
         return $this->sendSuccess('Course list fetched successfully', ['courses' => $courses]);
     }
+
+    public function myCourseDetails(Course $course){
+        $course->load(['coursecategories']);
+        $course->file_path = asset('storage/' . $course->file_path);
+        $semesters = Semester::where('exam_sequence', '<=', $course->no_of_semesters)->get();
+
+        foreach($semesters as $semester){
+            $topics = Topic::where('course_id', $course->id)
+                            ->whereHas('semester_topics', function($query) use ($semester){
+                                $query->where('semester_id', $semester->id);
+                            })->get();
+
+            $semester->sem_topics = $topics;
+
+        }
+        
+        $course->coursecategories = $course->coursecategories->map(function($category){
+            $category->file = asset('storage/' . $category->file);
+            return $category;
+        });
+
+
+        return $this->sendSuccess('Course list fetched successfully', ['course' => $course, 'semesters' => $semesters]);
+    }
 }
