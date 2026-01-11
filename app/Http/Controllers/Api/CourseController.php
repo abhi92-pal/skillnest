@@ -75,4 +75,21 @@ class CourseController extends Controller
 
         return $this->sendSuccess('Course list fetched successfully', ['course' => $course, 'semesters' => $semesters]);
     }
+
+    public function myCourses(Request $request){
+        
+        $courses = Course::with('coursecategories')->when($request->coursecategory_id, function ($query) use ($request) {
+            $query->whereHas('coursecategories', function ($q) use ($request) {
+                $q->where('coursecategory_id', $request->coursecategory_id);
+            });
+        })->paginate(10);
+
+
+        $courses->getCollection()->transform(function ($course) {
+            $course->file_path = asset('storage/' . $course->file_path);
+            return $course;
+        });
+
+        return $this->sendSuccess('Course list fetched successfully', ['courses' => $courses]);
+    }
 }

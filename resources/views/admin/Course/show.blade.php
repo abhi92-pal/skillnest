@@ -146,7 +146,7 @@
                                                                 </div>
                                                                <!-- ACTION BUTTONS -->
                                                                 <div class="col-md-12 text-right mt-2">
-                                                                    <a href="javascript:void(0)" class="btn btn-info btn-sm">
+                                                                    <a href="{{ route('admin.lession.index', $sem_topic->id) }}" class="btn btn-info btn-sm">
                                                                         <i class="fa fa-eye"></i> View Lessions
                                                                     </a>
 

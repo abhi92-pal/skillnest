@@ -10,9 +10,12 @@ export const PROFILE_PAGE = '/profile';
 
 // ############ Api endpoints ############ 
 export const COURSE_CATEGORY_API = API_BASE_URL + 'category-list';
-export const COURSES_API = API_BASE_URL + 'courses';
 export const TEACHERS_API = API_BASE_URL + 'teachers';
 export const LOGIN_API = API_BASE_URL + 'login';
 export const AUTH_REFRESH_API = API_BASE_URL + 'refresh';
 export const REGISTER_API = API_BASE_URL + 'register';
+
+// Courses API
+export const COURSES_API = API_BASE_URL + 'courses';
+export const MY_COURSES_API = API_BASE_URL + 'my-courses';
 

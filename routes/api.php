@@ -27,6 +27,7 @@ Route::controller(CourseController::class)->group(function(){
     Route::get('/category-wise-courses', 'getCategoryWiseSimpleList');
     Route::get('/courses', 'index');
     Route::get('/course/{course}/details', 'show');
+    Route::get('/my-courses', 'myCourses');
 });
 
 Route::middleware(['apiAuth'])->group(function(){
