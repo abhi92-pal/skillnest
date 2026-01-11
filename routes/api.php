@@ -28,6 +28,7 @@ Route::controller(CourseController::class)->group(function(){
     Route::get('/courses', 'index');
     Route::get('/course/{course}/details', 'show');
     Route::get('/my-courses', 'myCourses');
+    Route::get('/my-course/{course}/details', 'myCourseDetails');
 });
 
 Route::middleware(['apiAuth'])->group(function(){
