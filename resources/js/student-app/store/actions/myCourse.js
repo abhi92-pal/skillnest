@@ -50,7 +50,8 @@ export const fetchMyCourseDetails = (courseId) => {
         dispatch(fetchMyCourseDetailsStart())
         axios.get(fetchCourseApi)
                 .then(response => {
-                    dispatch(fetchMyCourseDetailsSuccess(response.data.course, response.data.semesters))
+                    
+                    dispatch(fetchMyCourseDetailsSuccess(response.data.data.course, response.data.data.semesters))
                 }).catch(error => {
                     console.log(error);
                     dispatch(fetchMyCourseDetailsFail(error.message, error.response.status))

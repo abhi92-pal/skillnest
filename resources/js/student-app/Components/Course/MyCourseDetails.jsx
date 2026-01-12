@@ -3,6 +3,7 @@ import * as Routes from '../../Routes/Routes';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMyCourseDetails } from '../../store/actions/index';
 import { Navigate, useParams } from "react-router-dom";
+import SemesterAccordion from "../Semester/SemesterAccordion";
 
 const MyCourseDetails = () => {
     const { courseId } = useParams();
@@ -15,8 +16,10 @@ const MyCourseDetails = () => {
 
     useEffect(() => {
         dispatch(fetchMyCourseDetails(courseId));
+        // console.log(course);
+        // console.log(semesters);
         
-    }, [course])
+    }, [dispatch, courseId]);
         
     if (loading) {
         return (<div>Loading....</div>);
@@ -26,11 +29,12 @@ const MyCourseDetails = () => {
         return (<Navigate to="/404" replace />);
     }
 
+    
+
     return (
         <React.Fragment>
-            <div className="row">
-                Course Id {courseId}
-            </div>
+            <h2>{course.name}</h2>
+            <SemesterAccordion semesters={semesters} />
         </React.Fragment>
     );
 

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import bgImage from '../../../../../public/images/bg_2.jpg';
 
-const CommonBanner = ({ title }) => {
+const CommonBanner = ({ title, subTitle }) => {
     return (
         <React.Fragment>
             <section
@@ -20,8 +20,15 @@ const CommonBanner = ({ title }) => {
                                     </Link>
                                 </span>{" "}
                                 <span>
-                                    {title} <i className="fa fa-chevron-right"></i>
+                                    {title} 
+                                    {subTitle && (<i className="fa fa-chevron-right ml-2"></i>)}
                                 </span>
+                                {subTitle && (
+                                    <span>
+                                        {' '}
+                                        {subTitle}
+                                    </span>
+                                )}
                             </p>
                             <h1 className="mb-0 bread">{title}</h1>
                         </div>

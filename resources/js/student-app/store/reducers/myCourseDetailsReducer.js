@@ -18,6 +18,7 @@ const myCourseDetailsReducer = (state = initialState, action) => {
                 statusCode: null
             }
         case actionTypes.MY_COURSE_DETAILS_FETCHED_SUCCESS:
+            
             return {
                 ...state,
                 loading: false,
