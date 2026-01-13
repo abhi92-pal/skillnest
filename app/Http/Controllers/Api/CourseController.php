@@ -99,10 +99,18 @@ class CourseController extends Controller
         $semesters = Semester::where('exam_sequence', '<=', $course->no_of_semesters)->get();
 
         foreach($semesters as $semester){
-            $topics = Topic::where('course_id', $course->id)
+            $topics = Topic::with(['lessions'])->where('course_id', $course->id)
                             ->whereHas('semester_topics', function($query) use ($semester){
                                 $query->where('semester_id', $semester->id);
                             })->get();
+
+            $topics = $topics->map(function($topic){
+                $topic->lessions = $topic->lessions->map(function($lesson){
+                    $lesson->content_url = asset('storage/images/lessions/' . $lesson->content_url);
+                    return $lesson;
+                });
+                return $topic;
+            });
 
             $semester->sem_topics = $topics;
 

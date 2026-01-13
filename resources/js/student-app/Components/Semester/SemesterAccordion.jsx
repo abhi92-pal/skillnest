@@ -1,62 +1,77 @@
 import React from 'react';
+import Accordion from '../Utilies/Accordion/Accordion';
 
 const SemesterAccordion = ({ semesters = [] }) => {
+    const containerStyle = {
+                    background: 'linear-gradient(135deg, #ce4be8 0%, #207ce5 100%)',
+                    padding: '20px',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    marginBottom: '5px'
+                };
+    const container2Style = {
+                    // background: 'linear-gradient(135deg, #ce4be8 0%, #207ce5 100%)',
+                    background: 'rgb(173 195 221)',
+                    padding: '10px',
+                    borderRadius: '8px',
+                    // textAlign: 'center',
+                    marginBottom: '5px'
+                };
     return (
-        <div className="accordion" id="semesterAccordion">
-            {semesters.map((semester, index) => {
-                const headingId = `heading-${semester.id}`;
-                const collapseId = `collapse-${semester.id}`;
-                console.log(semester.sem_topics);
-                
-                return (
-                    <div className="accordion-item" key={semester.id}>
-                        <h3 className="accordion-header" id={headingId}>
-                            <button
-                                className={`accordion-button ${index !== 0 ? 'collapsed' : ''}`}
-                                type="button"
-                                data-bs-toggle="collapse"
-                                data-bs-target={`#${collapseId}`}
-                                aria-expanded={index === 0}
-                                aria-controls={collapseId}
-                            >
-                                {semester.name}
-                            </button>
-                        </h3>
+        <Accordion
+            accordionHeadingStyle={containerStyle}
+            id="semesterAccordion"
+            items={semesters}
+            renderHeader={(semester) => (
+                <span className="text-white fw-bold">{semester.name}</span>
+            )}
+            renderBody={(semester) => (
+                semester.sem_topics.length == 0 
+                    ? (
+                        <p>Content has not been uploaded yet.</p>
+                    ) : (
+                        // <Accordion
+                        //     topics={semester.sem_topics || []}
+                        //     parentId={semester.id}
+                        // />
 
-                        <div
-                            id={collapseId}
-                            className={`accordion-collapse collapse ${index === 0 ? 'show' : ''}`}
-                            aria-labelledby={headingId}
-                            data-bs-parent="#semesterAccordion"
-                        >
-                            <div className="accordion-body">
-                                {semester.sem_topics?.length ? (
-                                    <ul className="list-group list-group-flush">
-                                        {semester.sem_topics.map(topic => (
-                                            <li
-                                                key={topic.id}
-                                                className="list-group-item"
-                                            >
-                                                <h6 className="mb-1">
-                                                    {topic.name}
-                                                </h6>
-                                                <p className="mb-0 text-muted">
-                                                    {topic.description}
-                                                </p>
-                                            </li>
-                                        ))}
-                                    </ul>
+                        <Accordion
+                            accordionHeadingStyle={container2Style}
+                            id={`lessonAccordion-${semester.id}`}
+                            items={semester.sem_topics || []}
+                            renderHeader={(topic) => (
+                                <strong className='text-white'>{topic.name}</strong>
+                            )}
+                            renderBody={(topic) => (
+                                <>
+                                <p className="text-muted">{topic.description}</p>
+
+                                {topic.lessions?.length ? (
+                                    <div className="row">
+                                    {topic.lessions.map((lesson) => (
+                                        <div key={lesson.id} className="col-md-3 card m-2 p-2">
+                                        <strong>{lesson.name}</strong>
+                                        <p className="mb-0">
+                                            Content Type:{" "}
+                                            {lesson.type === "Text"
+                                            ? "PDF"
+                                            : lesson.type === "Video"
+                                            ? "Video"
+                                            : lesson.type}
+                                        </p>
+                                        </div>
+                                    ))}
+                                    </div>
                                 ) : (
-                                    <p className="text-muted mb-0">
-                                        No topics available for this semester.
-                                    </p>
+                                    <p>Content has not been uploaded yet.</p>
                                 )}
-                            </div>
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
+                                </>
+                            )}
+                            />
+
+                    )
+            )}
+        />
     );
 };
 

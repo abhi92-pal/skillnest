@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate  } from 'react-router-dom';
 import InputField from '../../FormEl/InputField';
 import * as Routes from '../../../Routes/Routes';
-import FullPageLoader from '../../UI/FullPageLoader/FullPageLoader';
+import FullPageLoader from '../../Utilies/FullPageLoader/FullPageLoader';
 import * as actionTypes from '../../../store/actions/actionTypes'
 import { auth } from '../../../store/actions';
 
