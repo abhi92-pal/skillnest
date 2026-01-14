@@ -23,6 +23,8 @@ Route::middleware(['isTeacher'])->group(function(){
         Route::post('/lession/{lession}/freeze', 'freezeCourse')->name('teacher.lession.freeze');
         Route::post('/lession/{lession}/delete', 'destroy')->name('teacher.lession.destroy');
 
+        Route::get('/lession/{lession}/get-content', 'getContent')->name('teacher.lession.get-content');
+
     });
 
     Route::controller(DashboardController::class)->group(function(){

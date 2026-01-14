@@ -106,7 +106,8 @@ class CourseController extends Controller
 
             $topics = $topics->map(function($topic){
                 $topic->lessions = $topic->lessions->map(function($lesson){
-                    $lesson->content_url = asset('storage/images/lessions/' . $lesson->content_url);
+                    // $lesson->content_url = asset('storage/images/lessions/' . $lesson->content_url);
+                    unset($lesson->content_url);
                     return $lesson;
                 });
                 return $topic;
