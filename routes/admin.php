@@ -36,6 +36,7 @@ Route::middleware(['isAdmin'])->group(function(){
 
     Route::controller(LessionController::class)->group(function(){
         Route::get('/lessions/{topic}', 'index')->name('admin.lession.index');
+        Route::get('/lession/{lession}/get-content', 'getContent')->name('admin.lession.get-content');
     });
 
     Route::controller(StudentController::class)->group(function(){

@@ -50,8 +50,8 @@
                                                 <td>{{ $lession->description }}</td>
                                                 <td>{{ $lession->type }}</td>
                                                 <td>
-                                                    <a href="{{ asset('storage/images/lessions/' . $lession->content_url) }}"
-                                                        target="_blank"><i class="mdi mdi-eye me-1"></i></a>
+                                                    {{-- <a href="{{ asset('storage/images/lessions/' . $lession->content_url) }}" target="_blank"><i class="mdi mdi-eye me-1"></i></a> --}}
+                                                    <a href="{{ route('admin.lession.get-content', $lession->id) }}" target="_blank"><i class="mdi mdi-eye me-1"></i></a>
                                                 </td>
                                                 <td>{{ $lession->duration }}</td>
                                             </tr>

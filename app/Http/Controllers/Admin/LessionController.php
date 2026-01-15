@@ -18,4 +18,8 @@ class LessionController extends Controller
 
         return view('admin.lession.index', compact('lessions', 'topic'));
     }
+
+    public function getContent(Lession $lession){
+        return view('admin.lession.preview', compact('lession'));
+    }
 }
