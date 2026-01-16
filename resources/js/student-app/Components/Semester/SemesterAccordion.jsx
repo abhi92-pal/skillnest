@@ -1,8 +1,15 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Accordion from '../Utilies/Accordion/Accordion';
 import VideoPlayer from '../Utilies/VideoPlayer/VideoPlayer';
+import PdfViewer from '../Utilies/PdfViewer/PdfViewer';
+import FullPageLoader from '../Utilies/FullPageLoader/FullPageLoader';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchLessonContent } from '../../store/actions/index';
 
 const SemesterAccordion = ({ semesters = [] }) => {
+    const playerRef = useRef(null);
+    const dispatch = useDispatch();
+    const { contentLoading, streamUrl, lessonType } = useSelector(state => state.myCourseDetail);
     const [selectedLesson, setSelectedLesson] = useState(null);
     const containerStyle = {
                     background: 'linear-gradient(135deg, #ce4be8 0%, #207ce5 100%)',
@@ -12,38 +19,56 @@ const SemesterAccordion = ({ semesters = [] }) => {
                     marginBottom: '5px'
                 };
     const container2Style = {
-                    // background: 'linear-gradient(135deg, #ce4be8 0%, #207ce5 100%)',
                     background: 'rgb(173 195 221)',
                     padding: '10px',
                     borderRadius: '8px',
-                    // textAlign: 'center',
                     marginBottom: '5px'
                 };
 
+    useEffect(() => {
+        
+        if (streamUrl && playerRef.current) {
+            const yOffset = -80; // adjust as needed
+            const y =
+                playerRef.current.getBoundingClientRect().top +
+                window.pageYOffset +
+                yOffset;
+
+            window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+    }, [streamUrl]);
+
     const lessionPlayerHandler = (lesson) => {
         setSelectedLesson(lesson);
-        setTimeout(() => {
-            window.scrollTo({
-                top: 150,
-                behavior: 'smooth'
-                });
-        }, 0);
+        dispatch(fetchLessonContent(lesson));
     }
+
     return (
         <>
-            <div>
+            {contentLoading ? <FullPageLoader /> : ''}
 
-                {selectedLesson && (
+            <div ref={playerRef} className='mb-3'>
+                {streamUrl && (
                     <div className="mt-4">
-                        <h5>Now Playing: {selectedLesson.name}</h5>
-                        <VideoPlayer
-                        src={selectedLesson.content_url}
-                        lessonId={selectedLesson.id}
-                        />
+                        <h5>Now Playing: {selectedLesson?.name}</h5>
+                        {lessonType === 'Video' && (
+                            <VideoPlayer
+                                src={streamUrl}
+                                lessonId={selectedLesson?.id}
+                                autoPlay
+                                watermarkText="SkillNest"
+                            />
+                        )}
+
+                        {(lessonType === 'Text') && (
+                            <PdfViewer src={streamUrl} watermarkText="SkillNest" />
+                        )}
+                        
                     </div>
                     )
                 }
             </div>
+
             <Accordion
                 accordionHeadingStyle={containerStyle}
                 id="semesterAccordion"
@@ -74,9 +99,7 @@ const SemesterAccordion = ({ semesters = [] }) => {
                                                 className="col-md-3 card m-2 p-2" 
                                                 style={{cursor: 'pointer'}}
                                                 onClick={() => {
-                                                    if (lesson.type === 'Video') {
-                                                        lessionPlayerHandler(lesson);
-                                                    }
+                                                    lessionPlayerHandler(lesson);
                                                 }}>
                                                 <strong>{lesson.name}</strong>
                                                 <p className="mb-0">

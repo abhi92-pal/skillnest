@@ -74,3 +74,73 @@ export const fetchMyCourseDetailsFail = (errorMessage, statusCode) => {
         statusCode: statusCode
     }
 }
+
+export const fetchLessonStart = () => {
+    return {
+        type: actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_START
+    }
+}
+
+export const fetchLessonContent = (lesson) => {
+    return dispatch => {
+        const fetchCourseContentApi = Routes.COURSE_CONTENT_FETCH_API.replace('_lessionId_', lesson.id);
+        dispatch(fetchLessonStart());
+        axios.get(fetchCourseContentApi)
+            .then(response => {
+                dispatch(fetchLessonSuccess(response.data));
+            })
+            .catch((error) => {
+                dispatch(fetchLessonFail(error.message, error.response.status))
+            })
+    }   
+}
+
+export const fetchLessonSuccess = (data) => {
+    return {
+        type: actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_SUCCESS,
+        streamUrl: data.stream_url,
+        lessonType: data.type
+    }
+}
+
+export const fetchLessonFail = (errorMessage, statusCode) => {
+    return {
+        type: actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_FAIL,
+        errorMessage: errorMessage,
+        statusCode: statusCode
+    }
+}
+        // try {
+        //     setLoading(true);
+        //     setSelectedLesson(lesson);
+        //     setStreamUrl(null);
+
+        //     const res = await fetch(`/api/content/${lesson.id}`, {
+        //         headers: {
+        //             'Accept': 'application/json',
+        //             // Authorization header if needed
+        //             // Authorization: `Bearer ${token}`
+        //         }
+        //     });
+
+        //     if (!res.ok) {
+        //         throw new Error('Failed to load content');
+        //     }
+
+        //     const data = await res.json();
+
+        //     setStreamUrl(data.stream_url);
+
+        //     setTimeout(() => {
+        //         window.scrollTo({
+        //             top: 150,
+        //             behavior: 'smooth'
+        //         });
+        //     }, 0);
+        // } catch (err) {
+        //     console.error(err);
+        //     alert('Unable to load lesson content');
+        // } finally {
+        //     setLoading(false);
+        // }
+    // };

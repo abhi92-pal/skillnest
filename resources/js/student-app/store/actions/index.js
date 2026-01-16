@@ -12,5 +12,6 @@ export {
 
 export {
     fetchMyCourses,
-    fetchMyCourseDetails
+    fetchMyCourseDetails,
+    fetchLessonContent
 } from './myCourse';

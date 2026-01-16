@@ -5,7 +5,10 @@ const initialState = {
     course: {},
     semesters: [],
     loading: false,
-    statusCode: null
+    contentLoading: false,
+    statusCode: null,
+    streamUrl: null,
+    lessonType: null
 }
 
 const myCourseDetailsReducer = (state = initialState, action) => {
@@ -15,7 +18,9 @@ const myCourseDetailsReducer = (state = initialState, action) => {
                 ...state,
                 errorMessage: null,
                 loading: true,
-                statusCode: null
+                statusCode: null,
+                streamUrl: null,
+                lessonType: null
             }
         case actionTypes.MY_COURSE_DETAILS_FETCHED_SUCCESS:
             
@@ -30,6 +35,30 @@ const myCourseDetailsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 loading: false,
+                errorMessage: action.errorMessage,
+                statusCode: action.statusCode
+            }
+        case actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_START:
+            return {
+                ...state,
+                contentLoading: true,
+                errorMessage: null,
+                statusCode: null,
+                streamUrl: null,
+                lessonType: null
+            }
+        case actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_SUCCESS:
+            return {
+                ...state,
+                contentLoading: false,
+                statusCode: 200,
+                streamUrl: action.streamUrl,
+                lessonType: action.lessonType
+            }
+        case actionTypes.MY_COURSE_LESSION_CONTENT_FETCH_FAIL:
+            return {
+                ...state,
+                contentLoading: false,
                 errorMessage: action.errorMessage,
                 statusCode: action.statusCode
             }
