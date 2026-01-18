@@ -5,6 +5,7 @@ use App\Http\Controllers\Teacher\CourseController;
 use App\Http\Controllers\Teacher\DashboardController;
 use App\Http\Controllers\Teacher\TopicController;
 use App\Http\Controllers\Teacher\LessionController;
+use App\Http\Controllers\Teacher\StreamController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['isTeacher'])->group(function(){
@@ -25,6 +26,11 @@ Route::middleware(['isTeacher'])->group(function(){
 
         Route::get('/lession/{lession}/get-content', 'getContent')->name('teacher.lession.get-content');
 
+    });
+
+    Route::controller(StreamController::class)->group(function(){
+        Route::get('/content/{lession}', 'getContent')->name('teacher.content.get');
+        Route::get('/stream/{token}', 'stream')->name('teacher.content.stream');
     });
 
     Route::controller(DashboardController::class)->group(function(){
