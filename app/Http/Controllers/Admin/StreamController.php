@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -22,21 +22,22 @@ class StreamController extends Controller
 
     public function getContent(Lession $lession)
     {
-        $user = Auth::user();
+        // $user = Auth::user();
 
         $token = Str::uuid()->toString();
 
         Cache::put(
             "content_token_$token",
             [
-                'user_id'    => $user->id,
+                // 'user_id'    => $user->id,
+                'user_id'    => '1',
                 'lession_id' => $lession->id
             ],
             now()->addMinutes(5)
         );
 
         return response()->json([
-            'stream_url' => route("api.content.stream", $token),
+            'stream_url' => route("admin.content.stream", $token),
             'type'       => $lession->type
         ]);
     }

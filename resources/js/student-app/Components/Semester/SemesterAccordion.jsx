@@ -110,6 +110,13 @@ const SemesterAccordion = ({ semesters = [] }) => {
                                                     ? "Video"
                                                     : lesson.type}
                                                 </p>
+                                                <span className={`w-50 badge ${
+                                                                            lesson.progress_status === 'Not Started'
+                                                                                ? 'badge-info'
+                                                                                : lesson.progress_status === 'In Progress'
+                                                                                ? 'badge-warning'
+                                                                                : 'badge-success'
+                                                                            }`}>{ lesson.progress_status }</span>
                                             </div>
                                         ))}
                                         </div>

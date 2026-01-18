@@ -10,9 +10,15 @@ export const fetchStart = () => {
 export const fetchMyCourses = (page) => {
     return dispatch => {
         dispatch(fetchStart());
-
-        axios.get(Routes.MY_COURSES_API + `?page=${page}`)
-            .then(response => {
+        const token = localStorage.getItem('_token');
+        axios.get(Routes.MY_COURSES_API + `?page=${page}`,
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    },
+                }
+            ).then(response => {
                 dispatch(fetchSuccess(response.data.data.courses));
             }).catch(error => {
                 dispatch(fetchFail(error.response.message));
@@ -47,9 +53,16 @@ export const fetchMyCourseDetailsStart = () => {
 export const fetchMyCourseDetails = (courseId) => {
     return dispatch => {
         const fetchCourseApi = Routes.MY_COURSE_DETAILS_API.replace('_courseId_', courseId)
-        dispatch(fetchMyCourseDetailsStart())
-        axios.get(fetchCourseApi)
-                .then(response => {
+        dispatch(fetchMyCourseDetailsStart());
+        const token = localStorage.getItem('_token');
+        axios.get(fetchCourseApi, 
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        },
+                    }
+                ).then(response => {
                     
                     dispatch(fetchMyCourseDetailsSuccess(response.data.data.course, response.data.data.semesters))
                 }).catch(error => {
@@ -85,8 +98,16 @@ export const fetchLessonContent = (lesson) => {
     return dispatch => {
         const fetchCourseContentApi = Routes.COURSE_CONTENT_FETCH_API.replace('_lessionId_', lesson.id);
         dispatch(fetchLessonStart());
-        axios.get(fetchCourseContentApi)
-            .then(response => {
+
+        const token = localStorage.getItem('_token');
+        axios.get(fetchCourseContentApi, 
+                {
+                    headers: {
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                    },
+                }
+            ).then(response => {
                 dispatch(fetchLessonSuccess(response.data));
             })
             .catch((error) => {
@@ -110,37 +131,3 @@ export const fetchLessonFail = (errorMessage, statusCode) => {
         statusCode: statusCode
     }
 }
-        // try {
-        //     setLoading(true);
-        //     setSelectedLesson(lesson);
-        //     setStreamUrl(null);
-
-        //     const res = await fetch(`/api/content/${lesson.id}`, {
-        //         headers: {
-        //             'Accept': 'application/json',
-        //             // Authorization header if needed
-        //             // Authorization: `Bearer ${token}`
-        //         }
-        //     });
-
-        //     if (!res.ok) {
-        //         throw new Error('Failed to load content');
-        //     }
-
-        //     const data = await res.json();
-
-        //     setStreamUrl(data.stream_url);
-
-        //     setTimeout(() => {
-        //         window.scrollTo({
-        //             top: 150,
-        //             behavior: 'smooth'
-        //         });
-        //     }, 0);
-        // } catch (err) {
-        //     console.error(err);
-        //     alert('Unable to load lesson content');
-        // } finally {
-        //     setLoading(false);
-        // }
-    // };

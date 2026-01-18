@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\{
     CourseCategoryController,
     CourseController,
+    LessonController,
     StreamController,
     UserController,
     TeacherController
@@ -28,24 +29,32 @@ Route::controller(CourseController::class)->group(function(){
     Route::get('/category-wise-courses', 'getCategoryWiseSimpleList');
     Route::get('/courses', 'index');
     Route::get('/course/{course}/details', 'show');
-    Route::get('/my-courses', 'myCourses');
-    Route::get('/my-course/{course}/details', 'myCourseDetails');
 });
 
 Route::middleware(['apiAuth'])->group(function(){
+    Route::controller(CourseController::class)->group(function(){
+        Route::get('/my-courses', 'myCourses');
+        Route::get('/my-course/{course}/details', 'myCourseDetails');
+    });
+
     Route::post('/refresh', [LoginController::class, 'refresh']);
     
-    // Route::controller(StreamController::class)->group(function(){
-    //     Route::get('/content/{lession}', 'getContent')->name('api.content.get');
-    //     Route::get('/stream/{token}', 'stream')->name('api.content.stream');
-    // });
-    
-    Route::controller(UserController::class)->group(function(){
-        Route::get('/profile', 'profile');
+    Route::controller(StreamController::class)->group(function(){
+        Route::get('/content/{lession}', 'getContent')->name('api.content.get');
+        // Route::get('/stream/{token}', 'stream')->name('api.content.stream');
     });
+    
+    Route::controller(LessonController::class)->group(function(){
+        Route::post('/lesson/{lession}/record-progress', 'recordProgress');    
+        });
+        
+        Route::controller(UserController::class)->group(function(){
+            Route::get('/profile', 'profile');
+            });
+            
 });
-
+            
 Route::controller(StreamController::class)->group(function(){
-    Route::get('/content/{lession}', 'getContent')->name('api.content.get');
+    // Route::get('/content/{lession}', 'getContent')->name('api.content.get');
     Route::get('/stream/{token}', 'stream')->name('api.content.stream');
 });

@@ -8,6 +8,7 @@ use App\Models\Coursecategory;
 use App\Models\Semester;
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -94,6 +95,7 @@ class CourseController extends Controller
     }
 
     public function myCourseDetails(Course $course){
+        $auth_student = Auth::user()->student;
         $course->load(['coursecategories']);
         $course->file_path = asset('storage/' . $course->file_path);
         $semesters = Semester::where('exam_sequence', '<=', $course->no_of_semesters)->get();
@@ -104,9 +106,11 @@ class CourseController extends Controller
                                 $query->where('semester_id', $semester->id);
                             })->get();
 
-            $topics = $topics->map(function($topic){
-                $topic->lessions = $topic->lessions->map(function($lesson){
+            $topics = $topics->map(function($topic) use ($auth_student){
+                $topic->lessions = $topic->lessions->map(function($lesson) use ($auth_student){
                     // $lesson->content_url = asset('storage/images/lessions/' . $lesson->content_url);
+                    $studentlesson = $lesson->studentlessons()->where('student_id', $auth_student->id)->first();
+                    $lesson->progress_status = $studentlesson ? $studentlesson->status : 'Not Started';
                     unset($lesson->content_url);
                     return $lesson;
                 });

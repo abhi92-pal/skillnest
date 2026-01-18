@@ -47,7 +47,7 @@
 
         function loadContent() {
             // fetch('/api/content/{{ $lession->id }}', {
-            fetch("{{ route('api.content.get', $lession->id) }}", {
+            fetch("{{ route('admin.content.get', $lession->id) }}", {
                 headers: {
                     'Accept': 'application/json'
                 }

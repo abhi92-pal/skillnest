@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExamslotController;
 use App\Http\Controllers\Admin\LessionController;
+use App\Http\Controllers\Admin\StreamController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,12 @@ Route::middleware(['isAdmin'])->group(function(){
         Route::get('/students', 'index')->name('admin.student.index');
         Route::get('/student/create', 'create')->name('admin.student.create');
     });
-
+    
+    Route::controller(StreamController::class)->group(function(){
+        Route::get('/content/{lession}', 'getContent')->name('admin.content.get');
+        Route::get('/stream/{token}', 'stream')->name('admin.content.stream');
+    });
+    
     Route::controller(TeacherController::class)->group(function(){
         Route::get('/teachers', 'index')->name('admin.teacher.index');
         Route::get('/teacher/create', 'create')->name('admin.teacher.create');
@@ -54,6 +60,7 @@ Route::middleware(['isAdmin'])->group(function(){
     Route::controller(AuthController::class)->group(function(){
         Route::post('/logout', 'logout')->name('admin.logout');
     });
+
 });
 
 Route::controller(AuthController::class)->group(function(){

@@ -25,4 +25,5 @@ export const MY_COURSE_DETAILS_API = API_BASE_URL + `my-course/_courseId_/detail
 
 // Course content url
 export const COURSE_CONTENT_FETCH_API = API_BASE_URL + `content/_lessionId_`;
+export const COURSE_CONTENT_PROGRESS_RECORD_API = API_BASE_URL + `lesson/_lessionId_/record-progress`;
 

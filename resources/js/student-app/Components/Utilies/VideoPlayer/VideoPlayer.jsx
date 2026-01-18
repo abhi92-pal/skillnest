@@ -1,52 +1,77 @@
 import { useEffect, useRef, useState } from "react";
+import * as Routes from '../../../Routes/Routes';
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function VideoPlayer({ src, lessonId, watermarkText }) {
+    const { token } = useSelector(state => state.auth);
     const videoRef = useRef(null);
 
     const [watchTime, setWatchTime] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const [duration, setDuration] = useState(0);
 
     // Track time every second while playing
-    useEffect(() => {
-        let interval = null;
+    // useEffect(() => {
+    //     let interval = null;
 
-        if (isPlaying) {
-            interval = setInterval(() => {
-                setWatchTime((prev) => prev + 1);
-            }, 1000);
+    //     if (isPlaying) {
+    //         interval = setInterval(() => {
+    //             setWatchTime((prev) => prev + 1);
+    //         }, 2000);
+    //     }
+
+    //     return () => clearInterval(interval);
+    // }, [isPlaying]);
+
+    const handleTimeUpdate = () => {
+        if (videoRef.current) {
+            setWatchTime(videoRef.current.currentTime);
         }
-
-        return () => clearInterval(interval);
-    }, [isPlaying]);
-
-    const handlePlay = () => {
-        setIsPlaying(true);
     };
 
+    const handleLoadedMetadata = () => {
+        setDuration(videoRef.current.duration);
+    };
+
+    // const handlePlay = () => {
+    //     setIsPlaying(true);
+    // };
+
     const handlePause = () => {
-        setIsPlaying(false);
+        // setIsPlaying(false);
+        recordProgress(videoRef.current.currentTime);
     };
 
     const handleEnded = () => {
-        setIsPlaying(false);
+        // setIsPlaying(false);
         console.log("Video completed");
+        recordProgress(duration);
     };
 
-    // Example: send watch time to backend
+    const recordProgress = (time) => {
+        const actionUrl = Routes.COURSE_CONTENT_PROGRESS_RECORD_API.replace('_lessionId_', lessonId);
+
+        axios.post(
+                    actionUrl,
+                    {
+                        progress: Math.floor(time),
+                    },
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        },
+                    }
+                );
+    }
+
     useEffect(() => {
         return () => {
-            console.log("User spent (seconds):", watchTime);
-
-            // API call example
-            // fetch("/api/lesson-progress", {
-            //   method: "POST",
-            //   body: JSON.stringify({
-            //     lesson_id: lessonId,
-            //     watch_time: watchTime,
-            //   }),
-            // });
+            if (videoRef.current) {
+                recordProgress(videoRef.current.currentTime);
+            }
         };
-    }, [watchTime, lessonId]);
+    }, [lessonId]);
 
     return (
         <div>
@@ -55,8 +80,10 @@ function VideoPlayer({ src, lessonId, watermarkText }) {
                 src={src}
                 controls
                 width="100%"
-                onPlay={handlePlay}
+                // onPlay={handlePlay}
                 onPause={handlePause}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
                 onEnded={handleEnded}
 
                 /* 🚫 Disable download & PiP */
@@ -84,7 +111,7 @@ function VideoPlayer({ src, lessonId, watermarkText }) {
                 {watermarkText}
             </div>
 
-            <p>Watched: {watchTime} seconds</p>
+            {/* <p>Watched: {watchTime} seconds</p> */}
         </div>
     );
 }
