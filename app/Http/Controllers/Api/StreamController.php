@@ -70,11 +70,21 @@ class StreamController extends Controller
             ]);
         }
 
+        // return response()->file($path, [
+        //     'Content-Type' => 'application/pdf',
+        //     'Content-Disposition' => 'inline; filename="document.pdf"',
+        //     'Cache-Control' => 'no-store, no-cache, must-revalidate',
+        //     'Pragma' => 'no-cache',
+        // ]);
         return response()->file($path, [
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'inline; filename="document.pdf"',
+            'Accept-Ranges' => 'bytes',
             'Cache-Control' => 'no-store, no-cache, must-revalidate',
             'Pragma' => 'no-cache',
+            'Access-Control-Allow-Origin' => '*',
+            'Access-Control-Allow-Headers' => 'Range',
+            'Access-Control-Expose-Headers' => 'Accept-Ranges, Content-Range',
         ]);
     }
 }

@@ -66,7 +66,12 @@ const SemesterAccordion = ({ semesters = [] }) => {
                         )}
 
                         {(lessonType === 'Text') && (
-                            <PdfViewer src={streamUrl} watermarkText="SkillNest" />
+                            <PdfViewer 
+                                src={streamUrl} 
+                                watermarkText="SkillNest" 
+                                lessonId={selectedLesson?.id}
+                                callBackHandler={lessonProgressStatusHandler}
+                            />
                         )}
                         
                     </div>
