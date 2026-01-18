@@ -33,8 +33,9 @@ class LessonController extends Controller
             return $this->sendError('Invalid lesson type.');
         }
 
+        $progress_status = NULL;
         try{
-            DB::transaction(function() use ($request, $lession, $auth_student_id, $progress){
+            DB::transaction(function() use ($request, $lession, $auth_student_id, $progress, &$progress_status){
                 $studentLesson = StudentLession::where('lession_id', $lession->id)->where('student_id', $auth_student_id)->first();
                 if($studentLesson){
                     if($studentLesson->progress <= $progress){
@@ -44,18 +45,20 @@ class LessonController extends Controller
                         ]);
                     }
                 }else{
-                    StudentLession::create([
-                        'lession_id' => $lession->id,
-                        'student_id' => $auth_student_id,
-                        'status' => 'In Progress',
-                        'progress' => $progress,
-                    ]);
+                    $studentLesson = StudentLession::create([
+                                                                'lession_id' => $lession->id,
+                                                                'student_id' => $auth_student_id,
+                                                                'status' => 'In Progress',
+                                                                'progress' => $progress,
+                                                            ]);
                 }
+
+                $progress_status = $studentLesson->status;
             });
         }catch(\Exception $e){
             return $this->sendError($e->getMessage());
         }
 
-        return $this->sendSuccess('Progress recorded successfully.');
+        return $this->sendSuccess('Progress recorded successfully.', ['progress_status' => $progress_status]);
     }
 }

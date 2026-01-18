@@ -3,7 +3,7 @@ import * as Routes from '../../../Routes/Routes';
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-function VideoPlayer({ src, lessonId, watermarkText }) {
+function VideoPlayer({ src, lessonId, watermarkText, callBackHandler }) {
     const { token } = useSelector(state => state.auth);
     const videoRef = useRef(null);
 
@@ -62,7 +62,14 @@ function VideoPlayer({ src, lessonId, watermarkText }) {
                         "Content-Type": "application/json",
                         },
                     }
-                );
+                ).then((response) => {
+                    if(response.data){
+                        const progressStatus = response.data.data.progress_status;
+                        if(callBackHandler){
+                            callBackHandler(lessonId, progressStatus)
+                        }
+                    }
+                });
     }
 
     useEffect(() => {

@@ -131,3 +131,11 @@ export const fetchLessonFail = (errorMessage, statusCode) => {
         statusCode: statusCode
     }
 }
+
+export const updateLessonProgress = (lessonId, status) => {
+    return {
+        type: actionTypes.MY_COURSE_LESSION_STATUS_UPDATE,
+        lessonId: lessonId,
+        status: status
+    }
+}

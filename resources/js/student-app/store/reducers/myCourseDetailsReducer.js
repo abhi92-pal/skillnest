@@ -62,6 +62,24 @@ const myCourseDetailsReducer = (state = initialState, action) => {
                 errorMessage: action.errorMessage,
                 statusCode: action.statusCode
             }
+        case actionTypes.MY_COURSE_LESSION_STATUS_UPDATE:
+            return {
+                ...state,
+                semesters: state.semesters.map(semester => ({
+                    ...semester,
+                    sem_topics: semester.sem_topics.map(topic => ({
+                        ...topic,
+                        lessions: topic.lessions.map(lesson => 
+                            lesson.id == action.lessonId 
+                            ? {
+                                ...lesson,
+                                progress_status: action.status
+                            } 
+                            : lesson
+                        )
+                    }))
+                }))
+            }
         default:
             return state;
     }

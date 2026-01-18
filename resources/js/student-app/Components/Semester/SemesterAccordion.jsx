@@ -4,7 +4,7 @@ import VideoPlayer from '../Utilies/VideoPlayer/VideoPlayer';
 import PdfViewer from '../Utilies/PdfViewer/PdfViewer';
 import FullPageLoader from '../Utilies/FullPageLoader/FullPageLoader';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLessonContent } from '../../store/actions/index';
+import { fetchLessonContent, updateLessonProgress } from '../../store/actions/index';
 
 const SemesterAccordion = ({ semesters = [] }) => {
     const playerRef = useRef(null);
@@ -43,6 +43,10 @@ const SemesterAccordion = ({ semesters = [] }) => {
         dispatch(fetchLessonContent(lesson));
     }
 
+    const lessonProgressStatusHandler = (lessonId, status) => {
+        dispatch(updateLessonProgress(lessonId, status));
+    }
+
     return (
         <>
             {contentLoading ? <FullPageLoader /> : ''}
@@ -57,6 +61,7 @@ const SemesterAccordion = ({ semesters = [] }) => {
                                 lessonId={selectedLesson?.id}
                                 autoPlay
                                 watermarkText="SkillNest"
+                                callBackHandler={lessonProgressStatusHandler}
                             />
                         )}
 
