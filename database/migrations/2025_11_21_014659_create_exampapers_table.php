@@ -13,7 +13,9 @@ return new class extends Migration
     {
         Schema::create('exampapers', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('name');
             $table->uuid('examslot_id')->nullable();
+            $table->uuid('course_id');
             $table->uuid('semester_id');
             $table->uuid('topic_id');
             $table->bigInteger('duration')->comment('in min');

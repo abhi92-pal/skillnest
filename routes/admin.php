@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Auth\AuthController;
 use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\ExampaperController;
 use App\Http\Controllers\Admin\ExamslotController;
 use App\Http\Controllers\Admin\LessionController;
 use App\Http\Controllers\Admin\StreamController;
@@ -27,6 +28,18 @@ Route::middleware(['isAdmin'])->group(function(){
 
     Route::controller(DashboardController::class)->group(function(){
         Route::get('/', 'index')->name('admin.dashboard');
+    });
+
+    Route::controller(ExampaperController::class)->group(function(){
+        Route::get('/exam-paper-structure', 'index')->name('admin.exampaper-structure.index');
+        Route::get('/exampaper-structure/create', 'create')->name('admin.exampaper-structure.create');
+        Route::post('/exampaper-structure/save', 'store')->name('admin.exampaper-structure.store');
+        // Route::post('/examslot/{examslot}/delete', 'destroy')->name('admin.examslot.destroy');
+
+        Route::post('/exampaper-structure/{exampaper}/freeze', 'freezeExampaper')->name('admin.exampaper-structure.freeze');
+        Route::post('/exampaper-structure/get-semesters', 'getSemesters')->name('admin.exampaper-structure.get.semesters');
+        Route::post('/exampaper-structure/get-topics', 'getTopics')->name('admin.exampaper-structure.get.topics');
+        Route::post('/exampaper-structure/get-examslots', 'getExamSlots')->name('admin.exampaper-structure.get.examslots');
     });
 
     Route::controller(ExamslotController::class)->group(function(){
