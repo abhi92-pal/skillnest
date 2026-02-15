@@ -46,11 +46,11 @@ Route::middleware(['apiAuth'])->group(function(){
     
     Route::controller(LessonController::class)->group(function(){
         Route::post('/lesson/{lession}/record-progress', 'recordProgress');    
-        });
-        
-        Route::controller(UserController::class)->group(function(){
-            Route::get('/profile', 'profile');
-            });
+    });
+    
+    Route::controller(UserController::class)->group(function(){
+        Route::get('/profile', 'profile');
+    });
             
 });
             
