@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('teacher.layouts.app')
 @section('title', 'View Exam Paper Structure')
 
 @section('css')
@@ -24,10 +24,6 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-                                <a href="{{ route('admin.exampaper-structure.create') }}" class="btn btn-danger waves-effect waves-light mb-3">
-                                    <i class="mdi mdi-plus-circle me-1"></i>
-                                    Add Exam Paper Structure
-                                </a>
                                 <table id="ddDataTable" class="table dt-responsive nowrap w-100">
                                     <thead>
                                         <tr>
@@ -75,9 +71,8 @@
                                                         <i class="fas fa-ellipsis-h"></i>
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                                            {{-- <a href="{{ route('admin.course.show', $exampaper->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
-                                                            <a href="{{ route('admin.course.edit', $exampaper->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a> --}}
-                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('admin.exampaper-structure.freeze', $exampaper->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
+                                                            <a href="{{ route('teacher.exampaper-structure.show', $exampaper->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('teacher.exampaper-structure.show', $exampaper->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -108,6 +103,7 @@
 @section('js')
 <script>
     $(document).ready(function(){
+        /*
         $(document).on('click', '.freeze_btn', function(){
             const __this = $(this);
             const actionUrl = __this.data('url');
@@ -149,8 +145,7 @@
                 }
             });
         });
-        
-        
+        */
     });
 </script>
 @endsection

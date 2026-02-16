@@ -13,7 +13,7 @@ class Exampaper extends Model
     protected $guarded = [];
 
     public function questiontypes(){
-        return $this->belongsToMany(Questiontype::class)->withPivot('description', 'total_questions', 'evaluted_question_nos', 'total_marks');
+        return $this->belongsToMany(Questiontype::class)->withPivot('description', 'total_questions', 'evaluated_question_nos', 'total_marks');
     }
     
     public function course(){

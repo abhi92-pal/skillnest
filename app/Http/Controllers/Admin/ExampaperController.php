@@ -80,9 +80,17 @@ class ExampaperController extends Controller
         }
 
         try {
-
+            $check = Exampaper::where([
+                                        'course_id' => $request->course,
+                                        'semester_id' => $request->semester,
+                                        'topic_id' => $request->topic,
+                                        'examslot_id' => $request->exam_slot,
+                                    ])->exists();
+            if($check){
+                throw new \Exception('The exampaper structure has already been created');
+            }
+            
             DB::transaction(function () use ($request) {
-
                 $exampaper = Exampaper::create([
                     'name' => $request->name,
                     'course_id' => $request->course,
@@ -96,8 +104,9 @@ class ExampaperController extends Controller
                     'is_freezed' => 'No',
                 ]);
 
+                $section_total_marks = 0;
                 foreach ($request->question_type as $questionTypeId) {
-
+                    $section_total_marks += $request->total_marks[$questionTypeId];
                     $exampaper->questiontypes()->attach($questionTypeId, [
                         'questiontype_id' => $questionTypeId,
                         'total_marks' => $request->total_marks[$questionTypeId],
@@ -105,6 +114,10 @@ class ExampaperController extends Controller
                         'evaluated_question_nos' => $request->evaluated_question_number[$questionTypeId],
                         'description' => $request->short_description[$questionTypeId],
                     ]);
+                }
+
+                if($section_total_marks != $request->paper_total_marks){
+                    throw new \Exception('Question type wise total marks and paper total marks are not matching.');
                 }
 
             });

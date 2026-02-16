@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('questiontypes', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name');
+            $table->enum('will_have_ans_choice', ['Yes', 'No']);
             $table->timestamps();
             $table->softDeletes();
         });
