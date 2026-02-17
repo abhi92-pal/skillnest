@@ -11,9 +11,10 @@ use Illuminate\Support\Facades\DB;
 
 class LessionController extends Controller
 {
-    public function index(Topic $topic){
+    public function index(Topic $topic)
+    {
         $auth_user = Auth::user();
-        if($topic->author_id != $auth_user->id || !$topic->course || $topic->course->status == 'Inactive'){
+        if ($topic->author_id != $auth_user->id || !$topic->course || $topic->course->status == 'Inactive') {
             abort(404);
         }
 
@@ -22,7 +23,8 @@ class LessionController extends Controller
         return view('teacher.lession.index', compact('lessions', 'topic'));
     }
 
-    public function store(Topic $topic, Request $request){
+    public function store(Topic $topic, Request $request)
+    {
         // $request->validate([
         //     'name' => 'required|max:200',
         //     'description' => 'required',
@@ -52,35 +54,41 @@ class LessionController extends Controller
 
         $request->validate($rules);
 
-        try{
+        try {
             $path = null;
             $filename = null;
             if ($request->hasFile('content')) {
-                $filename = time() . '.' . $request->content->extension();
-                $path = $request->content->storeAs('images/lessions', $filename, 'public');
+                // $filename = time() . '.' . $request->content->extension();
+                // $path = $request->content->storeAs('images/lessions', $filename, 'public');
+                $folder = $request->type === 'Video'
+                    ? 'private/videos'
+                    : 'private/pdfs';
+
+                $path = $request->file('content')->store($folder);
             }
 
-            DB::transaction(function() use ($request, $topic, $filename) {
+            DB::transaction(function () use ($request, $topic, $path) {
                 $topic->lessions()->create([
                     'type' => $request->type,
                     'name' => $request->name,
                     'description' => $request->description,
-                    'content_url' => $filename,
+                    // 'content_url' => $filename,
+                    'content_url' => $path,
                     'duration' => $request->duration,
                     'language' => 'EN',
                     'created_by' => Auth::id(),
                 ]);
-
             });
 
             return response()->json(['message' => 'Lession created successfully']);
-        }catch(\Exception $e){
+        } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 422);
         }
     }
 
-    public function freezeCourse(Lession $lession){
-        if($lession->is_freezed == 'Yes'){
+    public function freezeCourse(Lession $lession)
+    {
+        if ($lession->is_freezed == 'Yes') {
             return response()->json(['message' => 'Lession is already freezed.'], 422);
         }
 
@@ -89,13 +97,18 @@ class LessionController extends Controller
         return response()->json(['message' => 'Lession is freezed.']);
     }
 
-    public function destroy(Lession $lession){
-        if($lession->is_freezed == 'Yes'){
+    public function destroy(Lession $lession)
+    {
+        if ($lession->is_freezed == 'Yes') {
             return response()->json(['message' => "You can’t delete it because it is already frozen."], 422);
         }
 
         $lession->delete();
 
         return response()->json(['message' => 'Lession is deleted successfully.']);
+    }
+
+    public function getContent(Lession $lession){
+        return view('teacher.lession.preview', compact('lession'));
     }
 }

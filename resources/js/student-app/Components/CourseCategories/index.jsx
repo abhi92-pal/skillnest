@@ -1,30 +1,16 @@
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import * as ApiRoutes from '../../Routes/Routes';
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategory } from '../../store/actions/index';
 
 const CourseCategories = () => {
-	
-	const [categories, setCategories] = useState([]);
-	const [loading, setLoading] = useState(true);
-	// const fetchedRef = useRef(false);
-
+	const { categories, loading } = useSelector(state => state.courseCategory)
+	const dispatch = useDispatch();
 	useEffect(() => {
-		// if (fetchedRef.current) return; 
-        // fetchedRef.current = true;
-
-		const fetchCategories = async () => {
-			try {
-				const response = await axios.get(ApiRoutes.COURSE_CATEGORY_API);
-				
-				setCategories(response.data.data.categories);
-			} catch (error) {
-				console.error("Error fetching categories:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchCategories();
+		if(categories.length == 0){
+			dispatch(fetchCategory());
+		}
 	}, []);
 
 	if (loading) {

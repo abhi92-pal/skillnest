@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import InputField from '../../FormEl/InputField';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../../store/actions';
-import FullPageLoader from '../../UI/FullPageLoader/FullPageLoader';
+import FullPageLoader from '../../Utilies/FullPageLoader/FullPageLoader';
 
 const RegistrationForm = () => {
     const { loading, errors, errorMessage, token, successMessage } = useSelector((state) => state.auth);

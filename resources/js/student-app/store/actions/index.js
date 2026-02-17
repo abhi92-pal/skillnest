@@ -13,3 +13,14 @@ export {
 export {
     courseListFetch
 } from './course';
+
+export {
+    fetchCategory
+} from './courseCategory';
+
+export {
+    fetchMyCourses,
+    fetchMyCourseDetails,
+    fetchLessonContent,
+    updateLessonProgress
+} from './myCourse';

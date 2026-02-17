@@ -1,6 +1,6 @@
 // resources/js/Components/HomePage.jsx
 import React, {useEffect} from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import initJqueryPlugins from '../jquery/main.js';
 import NavBar from './Layouts/NavBar/index';
 import Welcome from './Pages/Welcome';
@@ -10,9 +10,12 @@ import Footer from './Layouts/Footer/index.jsx';
 import AboutUsPage from './Pages/AboutUsPage.jsx';
 import ContactPage from './Pages/ContactPage.jsx';
 import MyCoursePage from './Pages/MyCoursePage';
+import MyCourseDetailPage from './Pages/MyCourseDetailPage';
 import * as WebRoutes from '../Routes/Routes';
 import { useDispatch } from 'react-redux';
 import { autoLoginHandler } from '../store/actions';
+import AuthGuard from './AuthGuard/AuthGuard';
+import NotFound from './Pages/NotFound.jsx';
 
 const App = () => {
     const JQueryInitializer = () => {
@@ -37,9 +40,16 @@ const App = () => {
                 <Route path={WebRoutes.WELCOME_PAGE} element={<Welcome />} />
                 <Route path={WebRoutes.ABOUT_US_PAGE} element={<AboutUsPage />} />
                 <Route path={WebRoutes.COURSES_PAGE} element={<CoursePage />} />
-                <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
                 <Route path="/instructors" element={<InstructorPage />} />
                 <Route path="/contact" element={<ContactPage />} />
+                <Route element={<AuthGuard />}>
+                    <Route path={WebRoutes.MY_COURSES_PAGE} element={<MyCoursePage />} />
+                    <Route path={WebRoutes.MY_COURSE_DETAILS_PAGE } element={<MyCourseDetailPage />} />
+                    {/* <Route path={WebRoutes.PROFILE_PAGE} element={<ProfilePage />} /> */}
+                </Route>
+
+                <Route path="/404" element={<NotFound />} />
+                <Route path="*" element={<Navigate to="/404" replace />} />
             </Routes>
             <Footer />
         </Router>

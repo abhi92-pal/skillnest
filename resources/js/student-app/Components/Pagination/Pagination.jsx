@@ -30,49 +30,54 @@ const Pagination = ({ paginationData, onPageChange }) => {
     // Render the pagination
     return (
         <div className="block-27">
-            <ul>
-                <li className="mr-2">
-                    <a
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handlePrevPage();
-                        }}
-                    >
-                        &lt;
-                    </a>
-                </li>
-
-                {/* Display page numbers */}
-                {[...Array(totalPages).keys()].map((pageIndex) => {
-                    const page = pageIndex + 1;
-                    return (
-                        <li key={page} className={page === currentPage ? "active mr-2" : "mr-2"}>
+            {
+                (paginationData && paginationData.total > 0) ? (
+                    <ul>
+                        <li className="mr-2">
                             <a
                                 href="#"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    handlePageChange(page);
+                                    handlePrevPage();
                                 }}
                             >
-                                {page}
+                                &lt;
                             </a>
                         </li>
-                    );
-                })}
 
-                <li>
-                    <a
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            handleNextPage();
-                        }}
-                    >
-                        &gt;
-                    </a>
-                </li>
-            </ul>
+                        {/* Display page numbers */}
+                        {[...Array(totalPages).keys()].map((pageIndex) => {
+                            const page = pageIndex + 1;
+                            return (
+                                <li key={page} className={page === currentPage ? "active mr-2" : "mr-2"}>
+                                    <a
+                                        href="#"
+                                        onClick={(e) => {
+                                            e.preventDefault();
+                                            handlePageChange(page);
+                                        }}
+                                    >
+                                        {page}
+                                    </a>
+                                </li>
+                            );
+                        })}
+
+                        <li>
+                            <a
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    handleNextPage();
+                                }}
+                            >
+                                &gt;
+                            </a>
+                        </li>
+                    </ul>
+
+                ) : ''
+            }
         </div>
     );
 };

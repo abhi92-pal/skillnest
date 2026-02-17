@@ -11,10 +11,13 @@ Route::get('/{any}', function () {
     // })->where('any', '.*');
 })->where('any', '^(?!ad|tc|ex|api).*$');
 
+Route::get('/ex', function () {
+    return view('exam-app');
+});
+
 Route::get('/ex/{any}', function () {
     return view('exam-app');
-    // })->where('any', '.*');
-})->where('any', '.*$');
+})->where('any', '.*');
 
 
 Auth::routes();

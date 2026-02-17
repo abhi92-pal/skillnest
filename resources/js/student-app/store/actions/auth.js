@@ -151,6 +151,7 @@ export const autoLoginHandler = () => {
         
     return dispatch => {
         const _token = localStorage.getItem('_token');
+        dispatch(autoLoginChecked());
         if (!_token) {
             dispatch(logout());
         } else {
@@ -173,6 +174,12 @@ export const autoLoginHandler = () => {
                 dispatch(logout());
             }
         }
+    }
+}
+
+export const autoLoginChecked = () => {
+    return {
+        type: actionTypes.AUTO_LOGIN_INITIATE
     }
 }
 
