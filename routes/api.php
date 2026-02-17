@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\{
     CourseCategoryController,
     CourseController,
+    ExampaperController,
     LessonController,
     StreamController,
     UserController,
@@ -37,17 +38,21 @@ Route::middleware(['apiAuth'])->group(function(){
         Route::get('/my-course/{course}/details', 'myCourseDetails');
     });
 
+    Route::controller(ExampaperController::class)->group(function(){
+        Route::get('/get-questions/{exampaper}', 'getQuestions');
+    });
+    
+    Route::controller(LessonController::class)->group(function(){
+        Route::post('/lesson/{lession}/record-progress', 'recordProgress');    
+    });
+
     Route::post('/refresh', [LoginController::class, 'refresh']);
     
     Route::controller(StreamController::class)->group(function(){
         Route::get('/content/{lession}', 'getContent')->name('api.content.get');
         // Route::get('/stream/{token}', 'stream')->name('api.content.stream');
     });
-    
-    Route::controller(LessonController::class)->group(function(){
-        Route::post('/lesson/{lession}/record-progress', 'recordProgress');    
-    });
-    
+        
     Route::controller(UserController::class)->group(function(){
         Route::get('/profile', 'profile');
     });

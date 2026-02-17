@@ -21,6 +21,7 @@ return new class extends Migration
             $table->bigInteger('duration')->comment('in min');
             $table->bigInteger('grace_period')->comment('in min');
             $table->bigInteger('total_marks');
+            $table->enum('is_question_freezed', ['Yes', 'No'])->default('No');
             $table->enum('is_freezed', ['Yes', 'No'])->default('No');
             $table->enum('is_gradable', ['Yes', 'No']);
             $table->timestamps();

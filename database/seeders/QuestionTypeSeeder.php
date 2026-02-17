@@ -13,8 +13,8 @@ class QuestionTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        Questiontype::create(['name' => 'MCQ', 'will_have_ans_choice' => 'Yes', 'created_at' => now(), 'updated_at' => now()]);
-        Questiontype::create(['name' => 'Short Question', 'will_have_ans_choice' => 'No', 'created_at' => now(), 'updated_at' => now()]);
-        Questiontype::create(['name' => 'Descriptive', 'will_have_ans_choice' => 'No', 'created_at' => now(), 'updated_at' => now()]);
+        Questiontype::create(['name' => 'MCQ', 'sortid' => 1, 'will_have_ans_choice' => 'Yes', 'created_at' => now(), 'updated_at' => now()]);
+        Questiontype::create(['name' => 'Short Question', 'sortid' => 2, 'will_have_ans_choice' => 'No', 'created_at' => now(), 'updated_at' => now()]);
+        Questiontype::create(['name' => 'Descriptive', 'sortid' => 3, 'will_have_ans_choice' => 'No', 'created_at' => now(), 'updated_at' => now()]);
     }
 }
