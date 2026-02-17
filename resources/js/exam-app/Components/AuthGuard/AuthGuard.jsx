@@ -2,27 +2,28 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation, Outlet } from 'react-router-dom';
-// import { afterLoginRedirectTo } from '../../store/actions';
-// import * as Routes from '../../Routes/Routes';
+import { afterLoginRedirectTo } from '../../store/actions';
+import * as Routes from '../../Routes/Routes';
+import FullPageLoader from '../Utilities/FullPageLoader/FullPageLoader';
 
 const AuthGuard = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const { token, isAuthChecked } = useSelector(state => state.auth);
 
-    // useEffect(() => {
-    //     if (isAuthChecked && !token) {
-    //         dispatch(afterLoginRedirectTo(location.pathname));
-    //     }
-    // }, [isAuthChecked, token, location.pathname, dispatch]);
+    useEffect(() => {
+        if (isAuthChecked && !token) {
+            dispatch(afterLoginRedirectTo(location.pathname));
+        }
+    }, [isAuthChecked, token]);
 
-    // if (!isAuthChecked) {
-    //     return null;
-    // }
+    if (!isAuthChecked) {
+        return <FullPageLoader />;
+    }
 
-    // if (!token) {
-    //     return <Navigate to={Routes.WELCOME_PAGE} replace />;
-    // }
+    if (!token) {
+        return <Navigate to={Routes.EXAM_WELCOME_PAGE} replace />;
+    }
 
     return <Outlet />;
 };
