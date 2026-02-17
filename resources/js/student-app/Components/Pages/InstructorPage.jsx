@@ -6,37 +6,45 @@ import axios from "axios";
 import * as ApiRoutes from '../../Routes/Routes';
 import Pagination from "../Pagination/Pagination";
 
+import { instructorListFetch } from '../../store/actions/index';
+import { useDispatch, useSelector } from "react-redux";
 
-const CoursePage = () => {
 
-    const [teachers, setTeachers] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [paginationData, setPaginationData] = useState({});
+const InstructorPage = () => {
+    const dispatch = useDispatch();
+    const { loading, teachers, paginationData } = useSelector( state => state.instructor )
+    // const [teachers, setTeachers] = useState([]);
+    // const [loading, setLoading] = useState(true);
+    // const [paginationData, setPaginationData] = useState({});
 
-    const fetchTeachers = async (page = 1) => {
-        try {
-            const response = await axios.get(ApiRoutes.TEACHERS_API + `?page=${page}`);
-            const apiResp = response.data.data.teachers;
-            const teacherApiResp = apiResp.data;
-            // console.log(teacherApiResp);
-            setTeachers(teacherApiResp);
-            const {data, ...paginationWithoutData} = apiResp;
-            // console.log(paginationWithoutData);
+    // const fetchTeachers = async (page = 1) => {
+    //     try {
+    //         const response = await axios.get(ApiRoutes.TEACHERS_API + `?page=${page}`);
+    //         const apiResp = response.data.data.teachers;
+    //         const teacherApiResp = apiResp.data;
+    //         // console.log(teacherApiResp);
+    //         setTeachers(teacherApiResp);
+    //         const {data, ...paginationWithoutData} = apiResp;
+    //         // console.log(paginationWithoutData);
             
-            setPaginationData(paginationWithoutData);
+    //         setPaginationData(paginationWithoutData);
 
-        } catch (error) {
-           //
-        } finally {
-            setLoading(false);
-        }
-    };
+    //     } catch (error) {
+    //        //
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
     const handlePageChange = (page) => {
-        fetchTeachers(page); // Fetch the data for the selected page
+        // fetchTeachers(page); // Fetch the data for the selected page
+        dispatch(instructorListFetch(page));
     };
 
     useEffect(() => {
-        fetchTeachers();
+        // fetchTeachers();
+        if(teachers.length == 0){
+            dispatch(instructorListFetch(1));
+        }
     }, [])
 
     if (loading) {
@@ -66,4 +74,4 @@ const CoursePage = () => {
     )
 }
 
-export default CoursePage;
+export default InstructorPage;

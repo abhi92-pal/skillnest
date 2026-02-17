@@ -5,7 +5,7 @@ import InputField from '../../FormEl/InputField';
 import * as Routes from '../../../Routes/Routes';
 import FullPageLoader from '../../UI/FullPageLoader/FullPageLoader';
 import * as actionTypes from '../../../store/actions/actionTypes'
-import { auth } from '../../../store/actions';
+import { auth } from '../../../store/actions/index';
 
 function LoginForm() {
 	const dispatch = useDispatch();

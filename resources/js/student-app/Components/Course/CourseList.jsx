@@ -4,36 +4,46 @@ import axios from "axios";
 import * as ApiRoutes from '../../Routes/Routes';
 import Pagination from "../Pagination/Pagination";
 
-const CourseList = ({ course }) => {
+import { courseListFetch } from '../../store/actions/index';
+import { useDispatch, useSelector } from "react-redux";
 
-    const [courses, setCourses] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [paginationData, setPaginationData] = useState({});
+const CourseList = () => {
 
-    const fetchCourses = async (page = 1) => {
-        try {
-            const response = await axios.get(ApiRoutes.COURSES_API + `?page=${page}`);
-            const apiResp = response.data.data.courses;
-            // console.log(apiResp);
-            const courseApiResp = apiResp.data;
-            setCourses(courseApiResp);
-            const {data, ...paginationWithoutData} = apiResp;
-            // console.log(paginationWithoutData);
+    const dispatch = useDispatch();
+    const { loading, courses, paginationData } = useSelector( state => state.course )
+
+    // const [courses, setCourses] = useState([]);
+    // const [loading, setLoading] = useState(true);
+    // const [paginationData, setPaginationData] = useState({});
+
+    // const fetchCourses = async (page = 1) => {
+    //     try {
+    //         const response = await axios.get(ApiRoutes.COURSES_API + `?page=${page}`);
+    //         const apiResp = response.data.data.courses;
+    //         // console.log(apiResp);
+    //         const courseApiResp = apiResp.data;
+    //         setCourses(courseApiResp);
+    //         const {data, ...paginationWithoutData} = apiResp;
+    //         // console.log(paginationWithoutData);
             
-            setPaginationData(paginationWithoutData);
+    //         setPaginationData(paginationWithoutData);
 
-        } catch (error) {
-            // console.error("Error fetching courses:", error);
-        } finally {
-            setLoading(false);
-        }
-    };
+    //     } catch (error) {
+    //         // console.error("Error fetching courses:", error);
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
     const handlePageChange = (page) => {
-        fetchCourses(page); // Fetch the data for the selected page
+        // fetchCourses(page); // Fetch the data for the selected page
+        dispatch(courseListFetch(page));
     };
 
     useEffect(() => {
-        fetchCourses();
+        // fetchCourses();
+        if(courses.length == 0){
+            dispatch(courseListFetch(1));
+        }
     }, [])
 
     if (loading) {
