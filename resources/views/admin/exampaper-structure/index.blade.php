@@ -75,8 +75,8 @@
                                                         <i class="fas fa-ellipsis-h"></i>
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                                            {{-- <a href="{{ route('admin.course.show', $exampaper->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
-                                                            <a href="{{ route('admin.course.edit', $exampaper->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a> --}}
+                                                            <a href="{{ route('admin.exampaper-structure.show', $exampaper->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
+                                                            {{-- <a href="{{ route('admin.course.edit', $exampaper->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a> --}}
                                                             <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('admin.exampaper-structure.freeze', $exampaper->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
                                                         </div>
                                                     </div>

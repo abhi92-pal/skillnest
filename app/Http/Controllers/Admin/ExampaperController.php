@@ -135,6 +135,15 @@ class ExampaperController extends Controller
         ]);
     }
 
+    public function show(Exampaper $exampaper)
+    {
+        $exampaper->load('questiontypes');
+
+        $questiontypes = $exampaper->questiontypes;
+
+        return view('admin.exampaper-structure.show', compact('exampaper', 'questiontypes'));
+    }
+
     public function freezeExampaper(Exampaper $exampaper){
         if($exampaper->is_freezed == 'Yes'){
             return response()->json(['message' => 'Exampaper structure is already freezed.'], 422);

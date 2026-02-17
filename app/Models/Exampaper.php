@@ -31,4 +31,8 @@ class Exampaper extends Model
     public function examslot(){
         return $this->belongsTo(Examslot::class);
     }
+
+    public function questions(){
+        return $this->hasMany(Question::class);
+    }
 }

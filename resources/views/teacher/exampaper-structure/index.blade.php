@@ -59,7 +59,7 @@
                                                     {{ $exampaper->is_gradable }}
                                                 </td>
                                                 <td>
-                                                    @if ($exampaper->is_freezed == 'Yes')
+                                                    @if ($exampaper->is_question_freezed == 'Yes')
                                                         <span class="badge badge-success">Freezed</span>
                                                     @else
                                                         <span class="badge badge-danger">Not Freezed</span>
@@ -72,7 +72,7 @@
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
                                                             <a href="{{ route('teacher.exampaper-structure.show', $exampaper->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
-                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('teacher.exampaper-structure.show', $exampaper->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
+                                                            <a href="javascript:void(0)" class="dropdown-item freeze_btn" data-url="{{ route('teacher.exampaper-question.freeze', $exampaper->id) }}"><i class="far fa-snowflake text-info mr-3"></i>Freeze</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -103,7 +103,6 @@
 @section('js')
 <script>
     $(document).ready(function(){
-        /*
         $(document).on('click', '.freeze_btn', function(){
             const __this = $(this);
             const actionUrl = __this.data('url');
@@ -145,7 +144,6 @@
                 }
             });
         });
-        */
     });
 </script>
 @endsection

@@ -34,6 +34,7 @@ Route::middleware(['isAdmin'])->group(function(){
         Route::get('/exam-paper-structure', 'index')->name('admin.exampaper-structure.index');
         Route::get('/exampaper-structure/create', 'create')->name('admin.exampaper-structure.create');
         Route::post('/exampaper-structure/save', 'store')->name('admin.exampaper-structure.store');
+        Route::get('/exam-paper-structure/{exampaper}/details', 'show')->name('admin.exampaper-structure.show');
         // Route::post('/examslot/{examslot}/delete', 'destroy')->name('admin.examslot.destroy');
 
         Route::post('/exampaper-structure/{exampaper}/freeze', 'freezeExampaper')->name('admin.exampaper-structure.freeze');

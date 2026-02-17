@@ -17,15 +17,11 @@ Route::middleware(['isTeacher'])->group(function(){
 
     Route::controller(ExampaperController::class)->group(function(){
         Route::get('/exam-paper-structure', 'index')->name('teacher.exampaper-structure.index');
+        Route::post('/exam-paper/{exampaper}/save', 'store')->name('teacher.exampaper.store');
+        Route::post('/exam-paper/{exampaper}/update', 'update')->name('teacher.exampaper.update');
         Route::get('/exam-paper-structure/{exampaper}/details', 'show')->name('teacher.exampaper-structure.show');
-        // Route::get('/exampaper-structure/create', 'create')->name('admin.exampaper-structure.create');
-        // Route::post('/exampaper-structure/save', 'store')->name('admin.exampaper-structure.store');
-        // // Route::post('/examslot/{examslot}/delete', 'destroy')->name('admin.examslot.destroy');
 
-        // Route::post('/exampaper-structure/{exampaper}/freeze', 'freezeExampaper')->name('admin.exampaper-structure.freeze');
-        // Route::post('/exampaper-structure/get-semesters', 'getSemesters')->name('admin.exampaper-structure.get.semesters');
-        // Route::post('/exampaper-structure/get-topics', 'getTopics')->name('admin.exampaper-structure.get.topics');
-        // Route::post('/exampaper-structure/get-examslots', 'getExamSlots')->name('admin.exampaper-structure.get.examslots');
+        Route::post('/exam-paper-question/{exampaper}/freeze', 'freezeQuestion')->name('teacher.exampaper-question.freeze');
     });
 
     Route::controller(TopicController::class)->group(function(){
