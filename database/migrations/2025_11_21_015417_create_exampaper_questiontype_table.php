@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('description');
             $table->bigInteger('total_questions');
             $table->bigInteger('evaluated_question_nos');
+            $table->bigInteger('total_marks');
 
             $table->unique(['exampaper_id', 'questiontype_id']);
         });

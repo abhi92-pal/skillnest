@@ -127,6 +127,26 @@
                     </div>
                 </li>
 
+                
+                <li>
+                    <a href="#menu_exampaper" data-toggle="collapse">
+                        <i data-feather="settings"></i>
+                        <span> Exam Paper Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="menu_exampaper">
+                        <ul class="nav-second-level">
+                          <li>
+                            <a href="{{ route('admin.exampaper-structure.index') }}">Exam Paper Structure</a>
+                          </li>
+                          <li>
+                            <a href="{{ route('admin.exampaper-structure.create') }}">Add</a>
+                          </li>
+
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
 
         </div>

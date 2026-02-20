@@ -3,6 +3,7 @@
 use App\Http\Controllers\Teacher\Auth\AuthController;
 use App\Http\Controllers\Teacher\CourseController;
 use App\Http\Controllers\Teacher\DashboardController;
+use App\Http\Controllers\Teacher\ExampaperController;
 use App\Http\Controllers\Teacher\TopicController;
 use App\Http\Controllers\Teacher\LessionController;
 use App\Http\Controllers\Teacher\StreamController;
@@ -12,6 +13,15 @@ Route::middleware(['isTeacher'])->group(function(){
     Route::controller(CourseController::class)->group(function(){
         Route::get('/courses', 'index')->name('teacher.course.index');
 
+    });
+
+    Route::controller(ExampaperController::class)->group(function(){
+        Route::get('/exam-paper-structure', 'index')->name('teacher.exampaper-structure.index');
+        Route::post('/exam-paper/{exampaper}/save', 'store')->name('teacher.exampaper.store');
+        Route::post('/exam-paper/{exampaper}/update', 'update')->name('teacher.exampaper.update');
+        Route::get('/exam-paper-structure/{exampaper}/details', 'show')->name('teacher.exampaper-structure.show');
+
+        Route::post('/exam-paper-question/{exampaper}/freeze', 'freezeQuestion')->name('teacher.exampaper-question.freeze');
     });
 
     Route::controller(TopicController::class)->group(function(){
