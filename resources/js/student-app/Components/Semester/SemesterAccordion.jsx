@@ -6,7 +6,7 @@ import FullPageLoader from '../Utilies/FullPageLoader/FullPageLoader';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchLessonContent, updateLessonProgress } from '../../store/actions/index';
 
-const SemesterAccordion = ({ semesters = [] }) => {
+const SemesterAccordion = ({ semesters = [], doNotStream = false }) => {
     const playerRef = useRef(null);
     const dispatch = useDispatch();
     const { contentLoading, streamUrl, lessonType } = useSelector(state => state.myCourseDetail);
@@ -39,8 +39,10 @@ const SemesterAccordion = ({ semesters = [] }) => {
     }, [streamUrl]);
 
     const lessionPlayerHandler = (lesson) => {
-        setSelectedLesson(lesson);
-        dispatch(fetchLessonContent(lesson));
+        if(doNotStream === false){
+            setSelectedLesson(lesson);
+            dispatch(fetchLessonContent(lesson));
+        }
     }
 
     const lessonProgressStatusHandler = (lessonId, status) => {

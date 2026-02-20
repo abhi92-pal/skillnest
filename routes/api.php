@@ -29,12 +29,14 @@ Route::controller(CourseController::class)->group(function(){
     Route::get('/category-wise-courses', 'getCategoryWiseSimpleList');
     Route::get('/courses', 'index');
     Route::get('/course/{course}/details', 'show');
+    
 });
 
 Route::middleware(['apiAuth'])->group(function(){
     Route::controller(CourseController::class)->group(function(){
         Route::get('/my-courses', 'myCourses');
         Route::get('/my-course/{course}/details', 'myCourseDetails');
+        Route::post('/course/order-store', 'purchaseCourse');
     });
 
     Route::post('/refresh', [LoginController::class, 'refresh']);

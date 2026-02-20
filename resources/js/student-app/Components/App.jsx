@@ -9,6 +9,7 @@ import InstructorPage from './Pages/InstructorPage';
 import Footer from './Layouts/Footer/index.jsx';
 import AboutUsPage from './Pages/AboutUsPage.jsx';
 import ContactPage from './Pages/ContactPage.jsx';
+import CourseDetailPage from './Pages/CourseDetailPage';
 import MyCoursePage from './Pages/MyCoursePage';
 import MyCourseDetailPage from './Pages/MyCourseDetailPage';
 import * as WebRoutes from '../Routes/Routes';
@@ -40,6 +41,7 @@ const App = () => {
                 <Route path={WebRoutes.WELCOME_PAGE} element={<Welcome />} />
                 <Route path={WebRoutes.ABOUT_US_PAGE} element={<AboutUsPage />} />
                 <Route path={WebRoutes.COURSES_PAGE} element={<CoursePage />} />
+                <Route path={WebRoutes.COURSE_DETAILS_PAGE } element={<CourseDetailPage />} />
                 <Route path="/instructors" element={<InstructorPage />} />
                 <Route path="/contact" element={<ContactPage />} />
                 <Route element={<AuthGuard />}>

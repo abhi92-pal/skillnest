@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Course = ({ course, showPricing = false, detailsLinkStructure }) => {
+const Course = ({ course, showPricing = true, detailsLinkStructure }) => {
     const detailsLink = detailsLinkStructure.replace(':courseId', course.id);
     return (
         <React.Fragment>

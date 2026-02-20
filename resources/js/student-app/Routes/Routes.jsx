@@ -22,6 +22,7 @@ export const COURSES_API = API_BASE_URL + 'courses';
 export const COURSE_DETAILS_API = API_BASE_URL + `course/_courseId_/details`;
 export const MY_COURSES_API = API_BASE_URL + 'my-courses';
 export const MY_COURSE_DETAILS_API = API_BASE_URL + `my-course/_courseId_/details`;
+export const COURSE_ORDER_STORE_API = API_BASE_URL + `course/order-store`;
 
 // Course content url
 export const COURSE_CONTENT_FETCH_API = API_BASE_URL + `content/_lessionId_`;

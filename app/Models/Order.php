@@ -6,9 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Studentcourse extends Model
+class Order extends Model
 {
     use HasUuids, SoftDeletes;
 
     protected $guarded = [];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    public function course(){
+        return $this->belongsTo(Course::class);
+    }
+
+    
 }

@@ -42,3 +42,47 @@ export const fetchFail = (errorMsg) => {
         errorMessage: errorMsg
     }
 }
+
+export const fetchCourseDetailsStart = () => {
+    return {
+        type: actionTypes.COURSE_DETAILS_FETCHED_START
+    }
+}
+
+export const fetchCourseDetails = (courseId) => {
+    return dispatch => {
+        const fetchCourseApi = ApiRoutes.COURSE_DETAILS_API.replace('_courseId_', courseId)
+        dispatch(fetchCourseDetailsStart());
+        const token = localStorage.getItem('_token');
+        axios.get(fetchCourseApi, 
+                    {
+                        headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        },
+                    }
+                ).then(response => {
+                    
+                    dispatch(fetchCourseDetailsSuccess(response.data.data.course, response.data.data.semesters))
+                }).catch(error => {
+                    console.log(error);
+                    dispatch(fetchCourseDetailsFail(error.message, error.response.status))
+                })
+    }
+}
+
+export const fetchCourseDetailsSuccess = (course, semesters) => {
+    return {
+        type: actionTypes.COURSE_DETAILS_FETCHED_SUCCESS,
+        course: course,
+        semesters: semesters,
+    }
+}
+
+export const fetchCourseDetailsFail = (errorMessage, statusCode) => {
+    return {
+        type: actionTypes.COURSE_DETAILS_FETCHED_FAIL,
+        errorMessage: errorMessage,
+        statusCode: statusCode
+    }
+}

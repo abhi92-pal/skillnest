@@ -103,8 +103,24 @@
                           <li>
                             <a href="{{ route('admin.student.index') }}">Students</a>
                           </li>
-                          <li>
+                          {{-- <li>
                             <a href="{{ route('admin.student.create') }}">Add</a>
+                          </li> --}}
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="#menu_order" data-toggle="collapse">
+                        <i data-feather="settings"></i>
+                        <span> Order Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse" id="menu_order">
+                        <ul class="nav-second-level">
+                          <li>
+                            <a href="{{ route('admin.order.index') }}">Orders</a>
                           </li>
 
                         </ul>

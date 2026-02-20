@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'View Students')
+@section('title', 'View Orders')
 
 @section('css')
 @endsection
@@ -32,26 +32,46 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Reg No.</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Father Name</th>
-                                            <th>Mother Nmae</th>
+                                            <th>Order No.</th>
+                                            <th>Purchased By</th>
+                                            <th>Course</th>
+                                            <th>Amount</th>
+                                            <th>Status</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @forelse ($students as $student)
+                                        @forelse ($orders as $order)
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $student->reg_no }}</td>
-                                                <td>{{ $student->user->name }}</td>
-                                                <td>{{ $student->user->email }}</td>
-                                                <td>{{ $student->user->phone }}</td>
-                                                <td>{{ $student->father_name }}</td>
-                                                <td>{{ $student->mother_name }}</td>
-                                                
+                                                <td>{{ $order->orderno }}</td>
+                                                <td>{{ $order->user->name }}</td>
+                                                <td>{{ $order->course->name }}</td>
+                                                <td>{{ number_format($order->price, 2) }}</td>
+                                                <td>
+                                                    @if ($order->status == 'Approved')
+                                                        <span class="badge badge-success">Approved</span>
+                                                    @elseif($order->status == 'Pending')
+                                                        <span class="badge badge-warning">Pending</span>
+                                                    @else
+                                                        <span class="badge badge-danger">Rejected</span>
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    <div class="dropdown">
+                                                        <div class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
+                                                        <i class="fas fa-ellipsis-h"></i>
+                                                        </div>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
+                                                            @if($order->status == 'Pending')
+                                                                <a href="javascript:void(0)" class="dropdown-item change_status" data-url="{{ route('admin.order.change-status', ['order' => $order->id, 'status' => 'Approve']) }}">Approve</a>
+                                                                <a href="javascript:void(0)" class="dropdown-item change_status" data-url="{{ route('admin.order.change-status', ['order' => $order->id, 'status' => 'Reject']) }}">Reject</a>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         @empty
                                         @endforelse 

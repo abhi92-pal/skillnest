@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\LessionController;
 use App\Http\Controllers\Admin\StreamController;
 use App\Http\Controllers\Admin\StudentController;
 use App\Http\Controllers\Admin\TeacherController;
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['isAdmin'])->group(function(){
@@ -43,6 +44,11 @@ Route::middleware(['isAdmin'])->group(function(){
     Route::controller(StudentController::class)->group(function(){
         Route::get('/students', 'index')->name('admin.student.index');
         Route::get('/student/create', 'create')->name('admin.student.create');
+    });
+
+    Route::controller(OrderController::class)->group(function(){
+        Route::get('/orders', 'index')->name('admin.order.index');
+        Route::post('/order/{order}/{status}/change-status', 'changeStatus')->name('admin.order.change-status');
     });
     
     Route::controller(StreamController::class)->group(function(){

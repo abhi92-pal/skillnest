@@ -31,8 +31,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="mt-1"><span data-plugin="counterup">0</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Total Students</p>
+                                    <h3 class="mt-1"><span data-plugin="counterup">{{ $teacher_count }}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Total Teachers</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -49,8 +49,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">0</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Boys Students</p>
+                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $student_count }}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Total Students</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->
@@ -67,8 +67,8 @@
                             </div>
                             <div class="col-6">
                                 <div class="text-right">
-                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">0</span></h3>
-                                    <p class="text-muted mb-1 text-truncate">Girls Students</p>
+                                    <h3 class="text-dark mt-1"><span data-plugin="counterup">{{ $course_count }}</span></h3>
+                                    <p class="text-muted mb-1 text-truncate">Total Courses</p>
                                 </div>
                             </div>
                         </div> <!-- end row-->

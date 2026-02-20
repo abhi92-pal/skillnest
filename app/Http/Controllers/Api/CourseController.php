@@ -7,8 +7,10 @@ use App\Models\Course;
 use App\Models\Coursecategory;
 use App\Models\Semester;
 use App\Models\Topic;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CourseController extends Controller
 {
@@ -63,6 +65,17 @@ class CourseController extends Controller
                             ->whereHas('semester_topics', function($query) use ($semester){
                                 $query->where('semester_id', $semester->id);
                             })->get();
+
+            $topics = $topics->map(function($topic){
+                $topic->lessions = $topic->lessions->map(function($lesson) {
+                    // $lesson->content_url = asset('storage/images/lessions/' . $lesson->content_url);
+                    // $studentlesson = $lesson->studentlessons()->where('student_id', $auth_student->id)->first();
+                    // $lesson->progress_status = $studentlesson ? $studentlesson->status : 'Not Started';
+                    unset($lesson->content_url);
+                    return $lesson;
+                });
+                return $topic;
+            });
 
             $semester->sem_topics = $topics;
 
@@ -128,5 +141,28 @@ class CourseController extends Controller
 
 
         return $this->sendSuccess('Course list fetched successfully', ['course' => $course, 'semesters' => $semesters]);
+    }
+
+    public function purchaseCourse(Request $request){
+
+        do {
+            $orderNo = 'ORD-' . now()->format('Ymd') . '-' . Str::upper(Str::random(6));
+        } while (Order::where('orderno', $orderNo)->exists());
+
+        if(!$course = Course::find($request->courseId)){
+            return $this->sendError('Course not found.');
+        }
+
+        $order = new Order;
+        $order->id = Str::uuid(); 
+        $order->orderno = $orderNo;
+        $order->user_id = Auth::user()->id;
+        $order->course_id = $request->courseId;
+        $order->price = $course->price;
+        $order->status = 'Pending'; 
+        $order->save();
+
+        return $this->sendSuccess('Order created successfully', ['order' => $order]);
+
     }
 }

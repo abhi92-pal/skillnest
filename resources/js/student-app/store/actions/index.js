@@ -11,7 +11,8 @@ export {
 } from './instructor';
 
 export {
-    courseListFetch
+    courseListFetch,
+    fetchCourseDetails
 } from './course';
 
 export {
