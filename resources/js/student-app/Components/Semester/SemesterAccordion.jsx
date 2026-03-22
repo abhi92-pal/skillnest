@@ -93,52 +93,54 @@ const SemesterAccordion = ({ semesters = [], doNotStream = false }) => {
                         ? (
                             <p>Content has not been uploaded yet.</p>
                         ) : (
-                            <Accordion
-                                accordionHeadingStyle={container2Style}
-                                id={`lessonAccordion-${semester.id}`}
-                                items={semester.sem_topics || []}
-                                renderHeader={(topic) => (
-                                    <strong className='text-white'>{topic.name}</strong>
-                                )}
-                                renderBody={(topic) => (
-                                    <>
-                                    <p className="text-muted">{topic.description}</p>
-
-                                    {topic.lessions?.length ? (
-                                        <div className="row">
-                                        {topic.lessions.map((lesson) => (
-                                            <div key={lesson.id} 
-                                                className="col-md-3 card m-2 p-2" 
-                                                style={{cursor: 'pointer'}}
-                                                onClick={() => {
-                                                    lessionPlayerHandler(lesson);
-                                                }}>
-                                                <strong>{lesson.name}</strong>
-                                                <p className="mb-0">
-                                                    Content Type:{" "}
-                                                    {lesson.type === "Text"
-                                                    ? "PDF"
-                                                    : lesson.type === "Video"
-                                                    ? "Video"
-                                                    : lesson.type}
-                                                </p>
-                                                <span className={`w-50 badge ${
-                                                                            lesson.progress_status === 'Not Started'
-                                                                                ? 'badge-info'
-                                                                                : lesson.progress_status === 'In Progress'
-                                                                                ? 'badge-warning'
-                                                                                : 'badge-success'
-                                                                            }`}>{ lesson.progress_status }</span>
-                                            </div>
-                                        ))}
-                                        </div>
-                                    ) : (
-                                        <p>Content has not been uploaded yet.</p>
+                            <>
+                                <p>Progress: <strong className={semester.sem_wise_progress > 50 ? 'text-success' : 'text-warning'}>{semester.sem_wise_progress}%</strong></p>
+                                <Accordion
+                                    accordionHeadingStyle={container2Style}
+                                    id={`lessonAccordion-${semester.id}`}
+                                    items={semester.sem_topics || []}
+                                    renderHeader={(topic) => (
+                                        <strong className='text-white'>{topic.name}</strong>
                                     )}
-                                    </>
-                                )}
-                            />
+                                    renderBody={(topic) => (
+                                        <>
+                                        <p className="text-muted">{topic.description}</p>
 
+                                        {topic.lessions?.length ? (
+                                            <div className="row">
+                                            {topic.lessions.map((lesson) => (
+                                                <div key={lesson.id} 
+                                                    className="col-md-3 card m-2 p-2" 
+                                                    style={{cursor: 'pointer'}}
+                                                    onClick={() => {
+                                                        lessionPlayerHandler(lesson);
+                                                    }}>
+                                                    <strong>{lesson.name}</strong>
+                                                    <p className="mb-0">
+                                                        Content Type:{" "}
+                                                        {lesson.type === "Text"
+                                                        ? "PDF"
+                                                        : lesson.type === "Video"
+                                                        ? "Video"
+                                                        : lesson.type}
+                                                    </p>
+                                                    <span className={`w-50 badge ${
+                                                                                lesson.progress_status === 'Not Started'
+                                                                                    ? 'badge-info'
+                                                                                    : lesson.progress_status === 'In Progress'
+                                                                                    ? 'badge-warning'
+                                                                                    : 'badge-success'
+                                                                                }`}>{ lesson.progress_status }</span>
+                                                </div>
+                                            ))}
+                                            </div>
+                                        ) : (
+                                            <p>Content has not been uploaded yet.</p>
+                                        )}
+                                        </>
+                                    )}
+                                />
+                            </>
                         )
                 )}
             />

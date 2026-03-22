@@ -20,5 +20,9 @@ class Course extends Model
         return $this->belongsToMany(Coursecategory::class);
     }
 
+    public function orders(){
+        return $this->hasMany(Order::class);
+    }
+
     
 }

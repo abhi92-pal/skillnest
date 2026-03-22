@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'View Students')
+@section('title', 'Student Courses')
 
 @section('css')
 @endsection
@@ -32,34 +32,37 @@
                                     <thead>
                                         <tr>
                                             <th></th>
-                                            <th>Reg No.</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone</th>
-                                            <th>Father Name</th>
-                                            <th>Mother Name</th>
+                                            <th>Duraion</th>
+                                            <th>Order No</th>
+                                            <th>Purchase Price</th>
+                                            <th>Purchase Date</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-                                        @forelse ($students as $student)
+                                        @forelse ($courses as $course)
+                                            @php
+                                                $order = $course->orders->first();   
+                                            @endphp
                                             <tr>
                                                 <td>{{ $loop->iteration }}</td>
-                                                <td>{{ $student->reg_no }}</td>
-                                                <td>{{ $student->user->name }}</td>
-                                                <td>{{ $student->user->email }}</td>
-                                                <td>{{ $student->user->phone }}</td>
-                                                <td>{{ $student->father_name }}</td>
-                                                <td>{{ $student->mother_name }}</td>
+                                                <td style="width: 36px;">
+                                                    <img src="{{ $course->file_path ?  asset('storage/' . $course->file_path) : asset('storage/images/1763276177.png') }}" alt="course-img" title="course-img" class="rounded-circle avatar-sm">
+                                                    {{ $course->name }}
+                                                </td>
+                                                <td>{{ $course->duration }} {{ $course->duration_type }}</td>
+                                                <td>{{ $order?->orderno ?? '-' }}</td>
+                                                <td>{{ number_format($order?->price, 2) }}</td>
+                                                <td>{{ $order ? date('d/m/Y', strtotime($order->created_at)) : '' }}</td>
                                                 <td>
                                                     <div class="dropdown">
                                                         <div class="btn btn-success btn-xs dropdown-toggle" data-toggle="dropdown">
                                                         <i class="fas fa-ellipsis-h"></i>
                                                         </div>
                                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="">
-                                                            <a href="{{ route('admin.student.courses', $student->id) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
-                                                            {{-- <a href="{{ route('admin.course.edit', $exampaper->id) }}" class="dropdown-item edit-btn"><i class="far fa-edit text-info mr-3"></i>Edit</a> --}}
+                                                            <a href="{{ route('admin.student.course.details', [$student->id, $course->id]) }}" class="dropdown-item view-btn"><i class="fas fa-info mr-3"></i>View Details</a>
                                                         </div>
                                                     </div>
                                                 </td>
@@ -86,7 +89,7 @@
 @section('js')
 <script>
     $(document).ready(function(){
-        
+        /*
         $(document).on('click', '.change_status', function(){
             const __this = $(this);
             const actionUrl = __this.data('url');
@@ -128,6 +131,7 @@
                 }
             });
         });
+        */
     });
 </script>
 @endsection
