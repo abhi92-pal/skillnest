@@ -58,6 +58,8 @@ Route::middleware(['isAdmin'])->group(function(){
     Route::controller(StudentController::class)->group(function(){
         Route::get('/students', 'index')->name('admin.student.index');
         Route::get('/student/create', 'create')->name('admin.student.create');
+        Route::get('/student/{student}/courses', 'studentCourses')->name('admin.student.courses');
+        Route::get('/student/{student}/{course}/details', 'studentCourseDetails')->name('admin.student.course.details');
     });
 
     Route::controller(OrderController::class)->group(function(){

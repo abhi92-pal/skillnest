@@ -91,12 +91,14 @@ class CourseController extends Controller
     }
 
     public function myCourses(Request $request){
-        
+        $user = Auth::user();
+        $courseIds = Order::where('user_id', $user->id)->where('status', 'Approved')->pluck('course_id')->toArray();
         $courses = Course::with('coursecategories')->when($request->coursecategory_id, function ($query) use ($request) {
-            $query->whereHas('coursecategories', function ($q) use ($request) {
-                $q->where('coursecategory_id', $request->coursecategory_id);
-            });
-        })->paginate(10);
+                                $query->whereHas('coursecategories', function ($q) use ($request) {
+                                    $q->where('coursecategory_id', $request->coursecategory_id);
+                                });
+                            })
+                            ->whereIn('id', $courseIds)->paginate(10);
 
 
         $courses->getCollection()->transform(function ($course) {
@@ -131,6 +133,7 @@ class CourseController extends Controller
             });
 
             $semester->sem_topics = $topics;
+            $semester->sem_wise_progress = getSemesterWiseProgress($auth_student->id, $course->id, $semester->id);
 
         }
         
